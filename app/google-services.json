@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "128736163877",
+    "firebase_url": "https://digitalshop-43584-default-rtdb.firebaseio.com",
+    "project_id": "digitalshop-43584",
+    "storage_bucket": "digitalshop-43584.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:128736163877:android:c6fb0b93673d829e30a7cc",
+        "android_client_info": {
+          "package_name": "com.example.digitalshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "128736163877-94vu5cicfcj78c9c9laaea89c71s3vks.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuLZOhJLouh4152JcPKkhTcFlVfV75dE4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "128736163877-94vu5cicfcj78c9c9laaea89c71s3vks.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
