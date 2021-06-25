@@ -93,4 +93,9 @@ public class Login_SignUp extends AppCompatActivity implements View.OnClickListe
                 .commit();
 
     }
+
+    @Override
+    public void onBackPressed () {
+      //  super.onBackPressed();
+    }
 }

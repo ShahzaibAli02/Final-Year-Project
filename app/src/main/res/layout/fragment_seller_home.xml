@@ -36,7 +36,7 @@
             android:textSize="20dp"
             android:textStyle="bold"
             android:textColor="@color/colorPrimaryDark"
-            android:fontFamily="@font/roboto_bold"
+            android:fontFamily="@font/orelega_one_regular"
             />
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -80,7 +80,6 @@
                     app:civ_border_width="2dp"
                     app:civ_border_color="@color/colorPrimaryDark"
                     />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -121,13 +120,13 @@
                         />
 
                     <TextView
+                        android:id="@+id/txtImpressions"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="124"
+                        android:text="--"
                         android:layout_marginTop="20dp"
                         android:gravity="center"
                         android:textSize="20dp"
-
                         android:textStyle="bold"
                         android:textColor="@color/white"
                         android:fontFamily="@font/roboto_condensed"
@@ -158,9 +157,10 @@
                         />
 
                     <TextView
+                        android:id="@+id/txtClicks"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="124"
+                        android:text="--"
                         android:layout_marginTop="20dp"
                         android:gravity="center"
                         android:textSize="20dp"
@@ -193,9 +193,10 @@
                         android:fontFamily="@font/roboto_condensed"
                         />
                     <TextView
+                        android:id="@+id/txtViews"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="124"
+                        android:text="--"
                         android:layout_marginTop="20dp"
                         android:gravity="center"
                         android:textSize="20dp"
@@ -220,6 +221,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:minHeight="400dp"
         android:layout_weight="1"
         android:layout_margin="20dp"
         app:cardCornerRadius="50dp"

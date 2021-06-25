@@ -9,6 +9,16 @@ public class User
     public  String phone;
     public  String role;
 
+    public String getShopname () {
+        return shopname;
+    }
+
+    public void setShopname (String shopname) {
+        this.shopname = shopname;
+    }
+
+    public  String shopname;
+
     public String getRole () {
         return role;
     }

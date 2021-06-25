@@ -25,7 +25,8 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public void onClick (View view) {
+    public void onClick (View view)
+    {
         System.out.println("CLICKED");
        // Util.showCustomToast(this,"CLICKED",false);
     }

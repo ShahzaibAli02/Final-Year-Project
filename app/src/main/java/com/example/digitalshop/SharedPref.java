@@ -18,6 +18,28 @@ public class SharedPref
         sharedPreferences.edit().putString(Constants.DB_USERS ,json).apply();
     }
 
+
+
+    public  static  void saveFavourite(Context context,String id,boolean isfvrt)
+    {
+        User user = getUser(context);
+        SharedPreferences sharedPreferences=context.getSharedPreferences(user.getEmail(),Context.MODE_PRIVATE);
+        sharedPreferences.edit().putBoolean(id ,isfvrt).apply();
+    }
+
+    public  static  boolean isFavorite(Context context,String id)
+    {
+        User user = getUser(context);
+        SharedPreferences sharedPreferences=context.getSharedPreferences(user.getEmail(),Context.MODE_PRIVATE);
+        return  sharedPreferences.getBoolean(id,false);
+    }
+
+    public  static  void clearUser(Context context)
+    {
+        SharedPreferences sharedPreferences=context.getSharedPreferences("com.example.digitalshop",Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString(Constants.DB_USERS ,"").apply();
+    }
+
     public  static  User getUser(Context context)
     {
         SharedPreferences sharedPreferences=context.getSharedPreferences("com.example.digitalshop",Context.MODE_PRIVATE);

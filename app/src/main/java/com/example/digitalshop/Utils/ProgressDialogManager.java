@@ -30,4 +30,19 @@ public class ProgressDialogManager
         return alertDialog;
     }
 
+    public static AlertDialog getProgressDialog(Context context,Sprite sprite,int color)
+    {
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        ProgressBar progressBar = new ProgressBar(context);
+        sprite.setColor(context.getResources().getColor(color));
+        progressBar.setIndeterminateDrawable(sprite);
+        builder.setView(progressBar);
+        builder.setCancelable(false);
+        AlertDialog alertDialog=builder.create();
+        alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        return alertDialog;
+    }
+
 }

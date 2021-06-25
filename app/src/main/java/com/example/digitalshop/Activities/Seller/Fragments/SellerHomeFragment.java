@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.digitalshop.R;
 import com.github.mikephil.charting.charts.LineChart;
@@ -26,9 +27,12 @@ public class SellerHomeFragment extends Fragment
 {
 
 
+    TextView txtImpressions;
+    TextView txtViews;
+    TextView txtClicks;
+    LineChart chart;
     @Override
-    public View onCreateView (LayoutInflater inflater , ViewGroup container ,
-                              Bundle savedInstanceState)
+    public View onCreateView (LayoutInflater inflater , ViewGroup container,Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_seller_home , container , false);
@@ -38,7 +42,16 @@ public class SellerHomeFragment extends Fragment
     public void onViewCreated (@NonNull @NotNull View view , @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view , savedInstanceState);
 
-        LineChart chart = view.findViewById(R.id.linechart);
+        chart = view.findViewById(R.id.linechart);
+
+
+        loadData();
+
+    }
+
+    private void loadData ()
+    {
+
         ArrayList<Entry> listData = new ArrayList<>();
         listData.add(new Entry(0f, 20f));
         listData.add(new Entry(1f, 10f));

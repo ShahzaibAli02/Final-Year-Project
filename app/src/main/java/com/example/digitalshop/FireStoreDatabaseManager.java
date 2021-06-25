@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 
 import com.example.digitalshop.Interfaces.DataBaseResult;
 import com.example.digitalshop.Interfaces.ImageUploadListener;
+import com.example.digitalshop.Model.Analytics;
+import com.example.digitalshop.Model.Product;
 import com.example.digitalshop.Model.User;
 import com.example.digitalshop.Utils.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,6 +18,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -23,7 +26,9 @@ import com.google.firebase.storage.UploadTask;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class FireStoreDatabaseManager
 {
@@ -51,8 +56,9 @@ public class FireStoreDatabaseManager
                                 user.setImage(url);
                                 user.setUid(task.getResult().getUser().getUid());
                                 FirebaseFirestore db=FirebaseFirestore.getInstance();
-                                CollectionReference collectionReference = db.collection(Constants.DB_USERS);
-                                collectionReference.document(user.getUid()).set(user).addOnCompleteListener(new OnCompleteListener<Void>()
+                                CollectionReference collectionReferenceUsers = db.collection(Constants.DB_USERS);
+                                CollectionReference collectionReferenceAnalytics = db.collection(Constants.DB_ANALYTICS);
+                                collectionReferenceUsers.document(user.getUid()).set(user).addOnCompleteListener(new OnCompleteListener<Void>()
                                 {
                                     @Override
                                     public void onComplete (@NonNull @NotNull Task<Void> task)
@@ -60,7 +66,24 @@ public class FireStoreDatabaseManager
 
                                         if(task.isSuccessful())
                                         {
-                                            dataBaseResult.onResult(false,"User Created Successfully",null);
+                                            collectionReferenceAnalytics.document(user.getUid()).set(new Analytics(user.getUid())).addOnCompleteListener(new OnCompleteListener<Void>()
+                                            {
+                                                @Override
+                                                public void onComplete (@NonNull @NotNull Task<Void> task)
+                                                {
+
+                                                    if(task.isSuccessful())
+                                                    {
+                                                        dataBaseResult.onResult(false,"User Created Successfully",null);
+                                                    }
+                                                    else
+                                                    {
+                                                        dataBaseResult.onResult(true,task.getException().getMessage(),null);
+                                                    }
+
+                                                }
+                                            });
+
                                         }
                                         else
                                         {
@@ -90,6 +113,136 @@ public class FireStoreDatabaseManager
 
 
     }
+
+    public static   void  updateProfile(User user,DataBaseResult dataBaseResult)
+    {
+
+        FirebaseFirestore db=FirebaseFirestore.getInstance();
+        CollectionReference collectionReferenceUsers = db.collection(Constants.DB_USERS);
+        collectionReferenceUsers.document(user.getUid()).set(user).addOnCompleteListener(new OnCompleteListener<Void>()
+        {
+            @Override
+            public void onComplete (@NonNull @NotNull Task<Void> task)
+            {
+
+                if(task.isSuccessful())
+                {
+                    dataBaseResult.onResult(false,"Account Updated",null);
+                }
+                else
+                {
+                    dataBaseResult.onResult(true,task.getException().getMessage(),null);
+                }
+
+            }
+        });
+    }
+    public static void  readAnalytics(String user_id,DataBaseResult dataBaseResult)
+    {
+        CollectionReference collectionReferenceAnalytics = FirebaseFirestore.getInstance().collection(Constants.DB_ANALYTICS);
+        collectionReferenceAnalytics.document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
+        {
+            @Override
+            public void onComplete (@NonNull @NotNull Task<DocumentSnapshot> task) {
+
+                if(task.isSuccessful())
+                {
+                    if(task.getResult().exists())
+                    {
+                        dataBaseResult.onResult(false,"Analytics Found",task.getResult().toObject(Analytics.class));
+
+                    }
+                    else
+                    {
+                        dataBaseResult.onResult(true,"No Analytics Found",null);
+
+                    }
+
+                }
+                else
+                {
+                    dataBaseResult.onResult(true,task.getException().getMessage(),null);
+                }
+
+            }
+        });
+    }
+
+
+    public  static  void  loadProductsbyid(String id,DataBaseResult dataBaseResult)
+    {
+        FirebaseFirestore db=FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = db.collection(Constants.DB_PRODUCTS);
+        collectionReference.whereEqualTo("uid",id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        {
+            @Override
+            public void onComplete (@NonNull @NotNull Task<QuerySnapshot> task)
+            {
+                if(task.isSuccessful())
+                {
+
+                    List<Product> productList=new ArrayList<>();
+                    if(task.getResult().isEmpty())
+                    {
+                        dataBaseResult.onResult(true,"No Products Found",null);
+                    }
+                    else
+                    {
+                        QuerySnapshot result = task.getResult();
+                        for(DocumentSnapshot documentSnapshot:result.getDocuments())
+                        {
+                            Product product = documentSnapshot.toObject(Product.class);
+                            productList.add(product);
+                        }
+
+                        if(!productList.isEmpty())
+                        {
+                            dataBaseResult.onResult(false,"Products Found",productList);
+                        }
+                        else
+                        {
+                            dataBaseResult.onResult(true,"No Products Found",null);
+
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    dataBaseResult.onResult(true,task.getException().getMessage(),null);
+                }
+
+            }
+        });
+    }
+    public  static  void  addProduct(Product product,DataBaseResult dataBaseResult)
+    {
+
+        FirebaseFirestore db=FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = db.collection(Constants.DB_PRODUCTS);
+        DocumentReference document = collectionReference.document();
+        product.setId(document.getId());
+        document.set(product).addOnCompleteListener(new OnCompleteListener<Void>()
+        {
+            @Override
+            public void onComplete (@NonNull @NotNull Task<Void> task)
+            {
+
+                if(task.isSuccessful())
+                {
+                    dataBaseResult.onResult(false,"Product Uploaded Successfully",null);
+                }
+                else
+                {
+                    dataBaseResult.onResult(true,task.getException().getMessage(),null);
+                }
+
+            }
+        });
+
+    }
+
     public static  void authenticateUser(String email,String password,DataBaseResult dataBaseResult)
     {
 
@@ -149,7 +302,7 @@ public class FireStoreDatabaseManager
 
         if(uri==null)
         {
-            imageUploadListener.onUpload(false,"","https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male4-512.png");
+            imageUploadListener.onUpload(false,"","https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png");
             return;
         }
 

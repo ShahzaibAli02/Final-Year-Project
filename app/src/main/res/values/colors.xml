@@ -11,5 +11,13 @@
     <color name="colorPrimaryDark">#ad0c5a</color>
     <color name="grey">#555555</color>
     <color name="background">#e3e5f8</color>
+    <color name="background_2">#D7D9EC</color>
     <color name="blue">#3949AB</color>
+    <color name="green">#43A047</color>
+    <color name="light_black">#333333</color>
+
+    <color name="Silver">#A6A5A5</color>
+    <color name="Red">#F44336</color>
+
+
 </resources>

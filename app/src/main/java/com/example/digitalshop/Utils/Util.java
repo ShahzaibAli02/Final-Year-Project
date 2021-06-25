@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -125,6 +126,14 @@ public class Util
 
            }
        }).show((FragmentActivity) activity);
+    }
+
+    public static  void composeEmail(Activity activity) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:alishahzaib02@gmai.com"));
+        intent.putExtra(Intent.EXTRA_EMAIL, "");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Digital Shop");
+        activity.startActivity(intent);
     }
 
 
