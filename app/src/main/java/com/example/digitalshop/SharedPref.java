@@ -19,6 +19,17 @@ public class SharedPref
     }
 
 
+    public static void  saveUserType(Context context,String type)
+    {
+        SharedPreferences sharedPreferences=context.getSharedPreferences("com.example.digitalshop",Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString("Type",type).apply();
+    }
+
+    public static   String  getUserType(Context context)
+    {
+        SharedPreferences sharedPreferences=context.getSharedPreferences("com.example.digitalshop",Context.MODE_PRIVATE);
+        return  sharedPreferences.getString("Type","");
+    }
 
     public  static  void saveFavourite(Context context,String id,boolean isfvrt)
     {

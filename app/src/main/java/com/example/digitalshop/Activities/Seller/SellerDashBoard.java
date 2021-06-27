@@ -12,6 +12,7 @@ import android.view.WindowManager;
 
 import com.example.digitalshop.Activities.Seller.Fragments.SellerAddProductFragment;
 import com.example.digitalshop.Activities.Seller.Fragments.SellerHomeFragment;
+import com.example.digitalshop.Activities.Seller.Fragments.SellerOrdersFragment;
 import com.example.digitalshop.Activities.Seller.Fragments.SellerProductsFragment;
 import com.example.digitalshop.Activities.Seller.Fragments.SellerProfileFragment;
 import com.example.digitalshop.R;
@@ -30,6 +31,7 @@ public class SellerDashBoard extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_dash_board);
         init();
+        navigationbar.setItemSelected(R.id.home,true);
         navigateTo(new SellerHomeFragment());
     }
     public  void  init()
@@ -60,7 +62,7 @@ public class SellerDashBoard extends AppCompatActivity
                 }
                 if(i==R.id.orders)
                 {
-                  //
+                    navigateTo(new SellerOrdersFragment());
                 }
                 if(i==R.id.products)
                 {
@@ -83,7 +85,10 @@ public class SellerDashBoard extends AppCompatActivity
 
 
     }
-
+    public  void  changeSelection(int id,boolean selected)
+    {
+        navigationbar.setItemSelected(id,selected);
+    }
     public  void  navigateTo(Fragment fragment)
     {
         getSupportFragmentManager().beginTransaction()

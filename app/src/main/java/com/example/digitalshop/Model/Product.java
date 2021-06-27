@@ -1,21 +1,22 @@
 package com.example.digitalshop.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Product
+public class Product implements Serializable
 {
     private  String id;
     private  String uid;
     private String name;
     private String detail;
 
-    public String getPrice () {
+    public Double getPrice () {
         return price;
     }
 
-    public void setPrice (String price) {
+    public void setPrice (Double price) {
         this.price = price;
     }
 
@@ -27,18 +28,18 @@ public class Product
         this.category = category;
     }
 
-    private String price;
+    private Double price;
     private String category;
 
-    public Double getRating () {
+    public float getRating () {
         return rating;
     }
 
-    public void setRating (Double rating) {
+    public void setRating (Float rating) {
         this.rating = rating;
     }
 
-    private  Double rating;
+    private  Float rating;
     private  List<String> images;
     private String uploadername;
     private  String uploadershopname;

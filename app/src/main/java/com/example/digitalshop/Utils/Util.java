@@ -64,11 +64,15 @@ public class Util
     public  static  void  showCustomToast(Activity activity,String Message,boolean Error)
     {
 
+
+        if(activity==null)
+            return;
+
         LayoutInflater inflater = activity.getLayoutInflater();
         View layout = inflater.inflate(R.layout.custom_toast_message,null);
 
         CardView cardView = layout.findViewById(R.id.card);
-        cardView.setCardBackgroundColor(Error? Color.RED:Color.GREEN);
+        cardView.setCardBackgroundColor(Error? Color.parseColor("#ad0000"):Color.parseColor("#0c7a00"));
         TextView text = (TextView) layout.findViewById(R.id.txtMessage);
         text.setText(Message);
         Toast toast = new Toast(activity);

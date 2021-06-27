@@ -12,15 +12,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.digitalshop.FireStoreDatabaseManager;
+import com.example.digitalshop.Interfaces.DataBaseResult;
+import com.example.digitalshop.Model.Analytics;
+import com.example.digitalshop.Model.Order;
+import com.example.digitalshop.Model.User;
 import com.example.digitalshop.R;
+import com.example.digitalshop.SharedPref;
+import com.example.digitalshop.Utils.Util;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class SellerHomeFragment extends Fragment
@@ -30,7 +44,10 @@ public class SellerHomeFragment extends Fragment
     TextView txtImpressions;
     TextView txtViews;
     TextView txtClicks;
+    CircleImageView circleImageView;
+    TextView txtUserName;
     LineChart chart;
+    List<Order> orderslist=new ArrayList<>();
     @Override
     public View onCreateView (LayoutInflater inflater , ViewGroup container,Bundle savedInstanceState)
     {
@@ -43,37 +60,127 @@ public class SellerHomeFragment extends Fragment
         super.onViewCreated(view , savedInstanceState);
 
         chart = view.findViewById(R.id.linechart);
+        circleImageView=view.findViewById(R.id.circleImageView);
+        txtUserName=view.findViewById(R.id.txtUserName);
+        txtImpressions=view.findViewById(R.id.txtImpressions);
+        txtViews=view.findViewById(R.id.txtViews);
+        txtClicks=view.findViewById(R.id.txtClicks);
 
 
+
+        readAnalytics();
         loadData();
 
     }
 
+
+    private void readAnalytics ()
+    {
+
+        User user = SharedPref.getUser(getActivity());
+        Picasso.get().load(user.getImage()).placeholder(R.drawable.loading_gif).into(circleImageView);
+        txtUserName.setText("Welcome Back!\n"+user.getName());
+
+        FireStoreDatabaseManager.readAnalytics(user.getUid() , new DataBaseResult()
+        {
+            @Override
+            public void onResult (boolean error , String Message , Object data)
+            {
+
+                if(error)
+                {
+                    Util.showSnackBar(getActivity(),Message);
+                }
+                else
+                {
+                    Analytics analytics= (Analytics) data;
+                    txtClicks.setText(String.valueOf(analytics.getClicks()));
+                    txtImpressions.setText(String.valueOf(analytics.getImpressions()));
+                    txtViews.setText(String.valueOf(analytics.getViews()));
+                }
+
+            }
+        });
+
+    }
+
+
     private void loadData ()
     {
 
-        ArrayList<Entry> listData = new ArrayList<>();
-        listData.add(new Entry(0f, 20f));
-        listData.add(new Entry(1f, 10f));
-        listData.add(new Entry(2f, 35f));
-        listData.add(new Entry(3f, 13f));
-        listData.add(new Entry(4f, 32f));
-        listData.add(new Entry(5f, 12f));
-        listData.add(new Entry(6f, 35f));
-        listData.add(new Entry(7f, 13f));
-        listData.add(new Entry(8f, 32f));
-        listData.add(new Entry(9f, 12f));
 
-        LineDataSet lineDataSet = new LineDataSet(listData, "Chart Table");
+
+        FireStoreDatabaseManager.loadordersbyid(SharedPref.getUser(getContext()).getUid() , new DataBaseResult()
+        {
+            @Override
+            public void onResult (boolean error , String Message , Object data) {
+
+
+                orderslist.clear();
+                if(error)
+                {
+
+                    Util.showSnackBarMessage(getActivity(),Message);
+
+                }
+                else
+                {
+                    orderslist.addAll((List<Order>)data);
+
+                }
+                loadChart();
+            }
+        });
+
+    }
+    public  void  loadChart()
+    {
+        ArrayList<Entry> listData = new ArrayList<>();
+
+        for (int i = 0, orderslistSize = orderslist.size(); i < orderslistSize; i++)
+        {
+            Order order = orderslist.get(i);
+            listData.add(new Entry(i,order.getTotalprice().floatValue()));
+        }
+
+        LineDataSet lineDataSet = new LineDataSet(listData, "Earning Table");
         lineDataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         lineDataSet.setDrawFilled(true);
         lineDataSet.setFillColor(ContextCompat.getColor(getActivity(),R.color.colorPrimaryDark));
         LineData lineData=new LineData(lineDataSet);
 
+        chart.getXAxis().setValueFormatter(new ValueFormatter()
+        {
+            @Override
+            public String getFormattedValue (float value)
+            {
+                return String.valueOf(orderslist.get(((int)value)).getFormatedDay());
+            }
+        });
+        Description description=new Description();
+        description.setText("Shows Earning of Current Month");
+        chart.setDescription(description);
+        chart.getAxisRight().setDrawLabels(false);
+        chart.getAxisLeft().setValueFormatter(new ValueFormatter()
+        {
+            @Override
+            public String getFormattedValue (float value)
+            {
+
+                String strVal=String.valueOf(value);
+                if(value>=1000)
+                {
+                    strVal=String.format("%.1f K",value/1000);
+                }
+                return "Rs "+strVal;
+
+            }
+        });
         chart.setData(lineData);
         chart.animateXY(2000,2000);
 
-
         chart.invalidate();
+
+
     }
 }

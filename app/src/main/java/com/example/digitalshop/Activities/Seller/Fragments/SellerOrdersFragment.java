@@ -1,13 +1,16 @@
 package com.example.digitalshop.Activities.Seller.Fragments;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,33 +18,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.example.digitalshop.Activities.Seller.SellerDashBoard;
-import com.example.digitalshop.Adapters.ProductAdapter;
-import com.example.digitalshop.Enums.OrderStatus;
+import com.example.digitalshop.Activities.Seller.SellerOrderDetailsActivity;
+import com.example.digitalshop.Adapters.OrderAdapter;
 import com.example.digitalshop.FireStoreDatabaseManager;
 import com.example.digitalshop.Interfaces.ClickListener;
 import com.example.digitalshop.Interfaces.DataBaseResult;
 import com.example.digitalshop.Model.Order;
-import com.example.digitalshop.Model.Product;
 import com.example.digitalshop.R;
 import com.example.digitalshop.SharedPref;
 import com.example.digitalshop.Utils.ProgressDialogManager;
 import com.example.digitalshop.Utils.Util;
 import com.github.ybq.android.spinkit.SpinKitView;
-import com.google.firebase.Timestamp;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class SellerProductsFragment extends Fragment implements ClickListener
+public class SellerOrdersFragment extends Fragment implements ClickListener
 {
 
 
-    List<Product> orderslist=new ArrayList<>();
-    ProductAdapter eventAdapter;
+    List<Order> orderslist=new ArrayList<>();
+
+    OrderAdapter orderAdapter;
     RecyclerView recyclerView;
     SpinKitView spin_kit;
     EditText edit_query;
@@ -54,7 +54,7 @@ public class SellerProductsFragment extends Fragment implements ClickListener
                               Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_seller_products , container , false);
+        return inflater.inflate(R.layout.fragment_seller_orders , container , false);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class SellerProductsFragment extends Fragment implements ClickListener
         super.onViewCreated(view , savedInstanceState);
         initViews(view);
         loadData();
-        eventAdapter.notifyDataSetChanged();
+        orderAdapter.notifyDataSetChanged();
 
         edit_query.addTextChangedListener(new TextWatcher() {
             @Override
@@ -84,15 +84,15 @@ public class SellerProductsFragment extends Fragment implements ClickListener
                 {
                     orderslist.clear();
                     if(originalData!=null)
-                    orderslist.addAll((List<Product>)originalData);
+                        orderslist.addAll((List<Order>)originalData);
                 }
                 else
                 {
                     String query=edit_query.getText().toString();
-                    List<Product> filteredList=new ArrayList<>();
-                    for(Product event:orderslist)
+                    List<Order> filteredList=new ArrayList<>();
+                    for(Order event:orderslist)
                     {
-                        if(event.getName().toLowerCase().contains(query.toLowerCase()))
+                        if(event.getProduct().getName().toLowerCase().contains(query.toLowerCase()))
                         {
                             filteredList.add(event);
 
@@ -102,7 +102,7 @@ public class SellerProductsFragment extends Fragment implements ClickListener
                     orderslist.addAll(filteredList);
                 }
 
-                eventAdapter.notifyDataSetChanged();
+                orderAdapter.notifyDataSetChanged();
 
             }
         });
@@ -112,15 +112,13 @@ public class SellerProductsFragment extends Fragment implements ClickListener
     {
 
 
-        AlertDialog progressDialog = ProgressDialogManager.getProgressDialog(getActivity());
-       // progressDialog.show();
 
-        FireStoreDatabaseManager.loadProductsbyid(SharedPref.getUser(getContext()).getUid() , new DataBaseResult()
+        FireStoreDatabaseManager.loadordersbyid(SharedPref.getUser(getContext()).getUid() , new DataBaseResult()
         {
             @Override
             public void onResult (boolean error , String Message , Object data) {
 
-              //  progressDialog.dismiss();
+
                 orderslist.clear();
                 if(error)
                 {
@@ -131,36 +129,13 @@ public class SellerProductsFragment extends Fragment implements ClickListener
                 else
                 {
                     originalData=data;
-                    orderslist.addAll((List<Product>)data);
+                    orderslist.addAll((List<Order>)data);
 
                 }
-                eventAdapter.notifyDataSetChanged();
+                orderAdapter.notifyDataSetChanged();
                 recyclerView.scheduleLayoutAnimation();
                 spin_kit.setVisibility(orderslist.isEmpty()?View.VISIBLE:View.GONE);
                 recyclerView.setVisibility(orderslist.isEmpty()?View.GONE:View.VISIBLE);
-
-
-
-               /* Order order=new Order();
-                order.setCreatedat(Timestamp.now().getSeconds());
-                order.setUpdatedat(Timestamp.now().getSeconds());
-                order.setOrderStatus(OrderStatus.PROCESSING);
-                order.setQuantity(1);
-                order.setUser(SharedPref.getUser(getActivity()));
-                order.setProduct(orderslist.get(0));
-                order.setTotalprice(order.getProduct().getPrice()*order.getQuantity());
-                order.setSellerid(order.getProduct().getUid());
-                FireStoreDatabaseManager.addOrder(order , new DataBaseResult()
-                {
-                    @Override
-                    public void onResult (boolean error , String Message , Object data) {
-
-                        Util.showCustomToast(getActivity(),Message,error);
-                    }
-                });
-
-
-                */
 
 
 
@@ -178,17 +153,16 @@ public class SellerProductsFragment extends Fragment implements ClickListener
         recyclerView=view.findViewById(R.id.recyclerView);
         edit_query=view.findViewById(R.id.edit_query);
 
-        eventAdapter=new ProductAdapter(orderslist,getActivity(),this);
+        orderAdapter =new OrderAdapter(orderslist,getActivity(),this);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
-        recyclerView.setAdapter(eventAdapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        recyclerView.setAdapter(orderAdapter);
     }
 
 
     @Override
     public void onClicked (int position)
     {
-        ((SellerDashBoard)getActivity()).changeSelection(R.id.addproduct,true);
-        ((SellerDashBoard)getActivity()).navigateTo(SellerAddProductFragment.newInstance(orderslist.get(position)));
+        startActivity(new Intent(getActivity(), SellerOrderDetailsActivity.class).putExtra("order",orderslist.get(position)));
     }
 }

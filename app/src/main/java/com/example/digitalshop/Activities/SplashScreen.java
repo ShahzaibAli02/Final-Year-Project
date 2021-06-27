@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 
 import com.example.digitalshop.Activities.Authentication.Login_SignUp;
+import com.example.digitalshop.Activities.Buyer.BuyerDashBoardActivity;
 import com.example.digitalshop.Activities.Seller.SellerDashBoard;
 import com.example.digitalshop.R;
 import com.example.digitalshop.SharedPref;
@@ -21,10 +23,51 @@ public class SplashScreen extends AppCompatActivity
         setContentView(R.layout.activity_splash_screen);
 
 
+        new CountDownTimer(3000,1000)
+        {
+
+            @Override
+            public void onTick (long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish ()
+            {
+                openNextActivity();
+            }
+        }.start();
+
+
+    }
+
+    private void openNextActivity ()
+    {
+
         if(SharedPref.getUser(this)==null)
         {
-            //finish();
-            startActivity(new Intent(this, Login_SignUp.class));
+
+            if(SharedPref.getUserType(this).isEmpty())
+            {
+                finish();
+                startActivity(new Intent(this, Seller_Buyer_Selection_Activity.class));
+            }
+            else
+            {
+
+
+                if(SharedPref.getUserType(this).equalsIgnoreCase("seller"))
+                {
+                    finish();
+                    startActivity(new Intent(this, Login_SignUp.class));
+                }
+                else
+                {
+                    finish();
+                    startActivity(new Intent(this, BuyerDashBoardActivity.class));
+                }
+            }
+
         }
         else
         {
@@ -33,7 +76,13 @@ public class SplashScreen extends AppCompatActivity
                 finish();
                 startActivity(new Intent(this, SellerDashBoard.class));
             }
+            else
+            {
+                finish();
+                startActivity(new Intent(this, BuyerDashBoardActivity.class));
+            }
 
         }
+
     }
 }

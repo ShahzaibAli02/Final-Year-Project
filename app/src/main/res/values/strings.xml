@@ -9,4 +9,13 @@
         <item>Electronic</item>
 
     </string-array>
+
+    <string-array name="order_status">
+
+        <item>PROCESSING</item>
+        <item>SHIPPED</item>
+        <item>DELIVERED</item>
+        <item>CANCELLED</item>
+
+    </string-array>
 </resources>

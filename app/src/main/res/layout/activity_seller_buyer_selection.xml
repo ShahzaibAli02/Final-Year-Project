@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:background="@drawable/back_stroke"
+    android:layout_margin="20dp"
+    android:padding="10dp"
+    tools:context=".Activities.Seller_Buyer_Selection_Activity">
+
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/logo"
+        />
+
+    <TextView
+        android:id="@+id/txtAddNewProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Continue As "
+        android:gravity="center"
+        android:textColor="@color/light_black"
+        android:textSize="25dp"
+        android:fontFamily="@font/orelega_one_regular"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="I am Seller"
+        android:onClick="onClickSeller"
+        android:fontFamily="@font/orelega_one_regular"
+        android:background="@drawable/back_default"
+
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="I am Buyer"
+        android:onClick="onClickBuyer"
+        android:fontFamily="@font/orelega_one_regular"
+        android:background="@drawable/back_default"
+        />
+
+
+</LinearLayout>

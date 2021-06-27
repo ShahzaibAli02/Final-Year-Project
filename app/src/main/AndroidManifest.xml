@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.digitalshop">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,6 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DigitalShop">
+        <activity android:name=".Activities.Buyer.BuyerDashBoardActivity"></activity>
+        <activity android:name=".Activities.Seller_Buyer_Selection_Activity" />
+        <activity android:name=".Activities.Seller.SellerOrderDetailsActivity" />
         <activity android:name=".Activities.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,10 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.Seller.SellerDashBoard" />
-        <activity android:name=".Activities.Authentication.Login_SignUp">
-
-        </activity>
+        <activity
+            android:name=".Activities.Seller.SellerDashBoard"
+            android:configChanges="orientation|screenSize" />
+        <activity android:name=".Activities.Authentication.Login_SignUp" />
         <activity android:name=".Activities.MainActivity" />
 
         <provider

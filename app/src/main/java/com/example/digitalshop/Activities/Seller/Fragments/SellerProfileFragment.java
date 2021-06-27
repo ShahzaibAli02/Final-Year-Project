@@ -78,6 +78,7 @@ public class SellerProfileFragment extends Fragment implements View.OnClickListe
     private void readAnalytics ()
     {
 
+
         FireStoreDatabaseManager.readAnalytics(user.getUid() , new DataBaseResult()
         {
             @Override

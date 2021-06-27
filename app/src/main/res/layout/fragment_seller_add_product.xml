@@ -15,6 +15,7 @@
         android:layout_marginTop="10dp"
         >
         <TextView
+            android:id="@+id/txtAddNewProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add New Product"
@@ -29,6 +30,7 @@
             android:orientation="vertical"
             android:layout_marginTop="20dp"
             android:padding="10dp"
+            android:backgroundTint="#FFFFFF"
             android:background="@drawable/back_default"
             >
             <TextView
@@ -241,6 +243,19 @@
                 android:text="Add Product"
                 android:background="@drawable/back_default"
                 android:backgroundTint="@color/colorPrimary"
+                android:textColor="@color/white"
+                />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btndelete"
+                android:layout_width="0dp"
+                android:layout_marginStart="10dp"
+                android:layout_weight="2"
+                android:layout_height="34dp"
+                android:text="Delete"
+                android:visibility="gone"
+                android:background="@drawable/back_default"
+                android:backgroundTint="@color/Red"
                 android:textColor="@color/white"
                 />
             <androidx.appcompat.widget.AppCompatButton

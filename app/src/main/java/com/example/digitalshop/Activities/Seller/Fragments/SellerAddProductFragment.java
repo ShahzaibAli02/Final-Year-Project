@@ -19,8 +19,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.digitalshop.Enums.ProductAction;
 import com.example.digitalshop.FireStoreDatabaseManager;
 import com.example.digitalshop.Interfaces.DataBaseResult;
 import com.example.digitalshop.Interfaces.ImageListener;
@@ -31,6 +33,7 @@ import com.example.digitalshop.R;
 import com.example.digitalshop.SharedPref;
 import com.example.digitalshop.Utils.ProgressDialogManager;
 import com.example.digitalshop.Utils.Util;
+import com.github.ybq.android.spinkit.style.DoubleBounce;
 import com.github.ybq.android.spinkit.style.ThreeBounce;
 import com.squareup.picasso.Picasso;
 
@@ -55,9 +58,39 @@ public class SellerAddProductFragment extends Fragment implements View.OnClickLi
     EditText editTextName;
     EditText editTextPrice;
     EditText editTextDetail;
+    TextView txtAddNewProduct;
+    Button btndelete;
     int gridIndex=0;
     androidx.gridlayout.widget.GridLayout gridLayout;
     String [] images=new String[]{"","","","","",""};
+
+
+
+     View view1;
+    private static final String ARG_PARAM1 = "param1";
+    private Product productToEdit;
+
+    public SellerAddProductFragment () {
+        // Required empty public constructor
+    }
+    public static SellerAddProductFragment newInstance (Product productToEdit ) {
+        SellerAddProductFragment fragment = new SellerAddProductFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_PARAM1 , productToEdit);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate (Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null)
+        {
+            productToEdit = (Product) getArguments().getSerializable(ARG_PARAM1);
+        }
+    }
+
     @Override
     public View onCreateView (LayoutInflater inflater , ViewGroup container , Bundle savedInstanceState)
     {
@@ -71,6 +104,27 @@ public class SellerAddProductFragment extends Fragment implements View.OnClickLi
 
         init(view);
         addItemInGrid();
+
+        if(productToEdit!=null)
+        {
+            setVals();
+        }
+    }
+
+    private void setVals ()
+    {
+
+        editTextName.setText(productToEdit.getName());
+        editTextDetail.setText(productToEdit.getDetail());
+        editTextPrice.setText(String.valueOf(productToEdit.getPrice()));
+        images[0]=productToEdit.getImages().get(0);
+        Picasso.get().load(productToEdit.getImages().get(0)).placeholder(R.drawable.loading_gif).into((ImageView) view1);
+
+
+        txtAddNewProduct.setText("Edit Product");
+        btnAddProduct.setText("Update");
+        btndelete.setVisibility(View.VISIBLE);
+
     }
 
     private void init (@NotNull View view)
@@ -79,6 +133,10 @@ public class SellerAddProductFragment extends Fragment implements View.OnClickLi
         btnContactUs=view.findViewById(R.id.btnContactUs);
         btnDismiss=view.findViewById(R.id.btnDismiss);
         btnAddProduct=view.findViewById(R.id.btnAddProduct);
+        btndelete=view.findViewById(R.id.btndelete);
+
+        txtAddNewProduct=view.findViewById(R.id.txtAddNewProduct);
+
         btnClear=view.findViewById(R.id.btnClear);
         btnContactUs=view.findViewById(R.id.btnContactUs);
 
@@ -92,9 +150,9 @@ public class SellerAddProductFragment extends Fragment implements View.OnClickLi
         editTextPrice=view.findViewById(R.id.editTextPrice);
         editTextDetail=view.findViewById(R.id.editTextDetail);
 
+        btndelete.setVisibility(View.GONE);
 
-
-        for(View view1:new View[]{btnContactUs,btnDismiss,btnAddProduct,btnClear})
+        for(View view1:new View[]{btnContactUs,btnDismiss,btnAddProduct,btnClear,btndelete})
             view1.setOnClickListener(this);
     }
 
@@ -102,7 +160,7 @@ public class SellerAddProductFragment extends Fragment implements View.OnClickLi
     public  void  addItemInGrid()
     {
 
-        final View view1 = getLayoutInflater().inflate(R.layout.layout_add_image ,gridLayout, false);
+        view1 = getLayoutInflater().inflate(R.layout.layout_add_image ,gridLayout, false);
 
         View view2 = getLayoutInflater().inflate(R.layout.layout_add_plus_icon ,gridLayout, false);
 
@@ -216,8 +274,16 @@ public class SellerAddProductFragment extends Fragment implements View.OnClickLi
         {
             if(validate())
             {
-                uploadData();
+                if(productToEdit==null)
+                 uploadData(ProductAction.ADD);
+                else
+                  uploadData(ProductAction.UPDATE);
             }
+        }
+
+        if(v==btndelete)
+        {
+            uploadData(ProductAction.DELETE);
         }
         if(v==btnClear)
         {
@@ -235,13 +301,14 @@ public class SellerAddProductFragment extends Fragment implements View.OnClickLi
 
     }
 
-    private void uploadData ()
+    private void uploadData (ProductAction productAction)
     {
 
-        AlertDialog progressDialog = ProgressDialogManager.getProgressDialog(getActivity(),new ThreeBounce(),R.color.blue);
+        AlertDialog progressDialog = ProgressDialogManager.getProgressDialog(getActivity(),new DoubleBounce(),R.color.colorPrimaryDark);
         progressDialog.show();
         Product product=getProduct();
-        FireStoreDatabaseManager.addProduct(product , new DataBaseResult()
+
+        DataBaseResult dataBaseResult=new DataBaseResult()
         {
             @Override
             public void onResult (boolean error , String Message , Object data) {
@@ -254,7 +321,24 @@ public class SellerAddProductFragment extends Fragment implements View.OnClickLi
                 }
 
             }
-        });
+        };
+
+
+        if(productAction==ProductAction.UPDATE)
+        {
+            FireStoreDatabaseManager.updateProductById(product ,dataBaseResult);
+        }
+        if(productAction==ProductAction.ADD)
+        {
+            FireStoreDatabaseManager.addProduct(product ,dataBaseResult);
+        }
+        if(productAction==ProductAction.DELETE)
+        {
+            FireStoreDatabaseManager.deleteProductById(product.getId() ,dataBaseResult);
+        }
+
+
+
 
     }
 
@@ -262,6 +346,9 @@ public class SellerAddProductFragment extends Fragment implements View.OnClickLi
     {
 
         Product product=new Product();
+        if(productToEdit!=null)
+            product=productToEdit;
+
         User user= SharedPref.getUser(getActivity());
         product.setAddress(user.getAddress());
         product.setUploadername(user.getName());
@@ -270,9 +357,9 @@ public class SellerAddProductFragment extends Fragment implements View.OnClickLi
         product.setName(editTextName.getText().toString());
         product.setDetail(editTextDetail.getText().toString());
         product.setCategory(spinnerCategory.getSelectedItem().toString());
-        product.setPrice(editTextPrice.getText().toString());
+        product.setPrice(Double.valueOf(editTextPrice.getText().toString()));
         product.setArrImages(images);
-        product.setRating(0.0);
+        product.setRating(0.0f);
         return product;
     }
 
@@ -297,6 +384,10 @@ public class SellerAddProductFragment extends Fragment implements View.OnClickLi
         addItemInGrid();
         images=new String[]{"","","","",""};
         spinnerCategory.setSelection(0);
+        btndelete.setVisibility(View.GONE);
+        btnAddProduct.setText("Add Product");
+        productToEdit=null;
+        txtAddNewProduct.setText("Add New Product");
         for(EditText editText:new EditText[]{editTextPrice,editTextName,editTextDetail})
             editText.setText(null);
 

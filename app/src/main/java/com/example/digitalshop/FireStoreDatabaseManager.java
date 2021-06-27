@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.example.digitalshop.Interfaces.DataBaseResult;
 import com.example.digitalshop.Interfaces.ImageUploadListener;
 import com.example.digitalshop.Model.Analytics;
+import com.example.digitalshop.Model.Order;
 import com.example.digitalshop.Model.Product;
 import com.example.digitalshop.Model.User;
 import com.example.digitalshop.Utils.Constants;
@@ -114,6 +115,72 @@ public class FireStoreDatabaseManager
 
     }
 
+
+    public static  void  deleteProductById(String id,DataBaseResult dataBaseResult)
+    {
+        FirebaseFirestore db=FirebaseFirestore.getInstance();
+        CollectionReference collectionReferenceProducts = db.collection(Constants.DB_PRODUCTS);
+        collectionReferenceProducts.document(id).delete().addOnCompleteListener(new OnCompleteListener<Void>()
+        {
+            @Override
+            public void onComplete (@NonNull @NotNull Task<Void> task) {
+
+                if(task.isSuccessful())
+                {
+                    dataBaseResult.onResult(false,"Deleted Successfully",null);
+                }
+                else
+                {
+                    dataBaseResult.onResult(true,task.getException().getMessage(),null);
+                }
+
+            }
+        });
+    }
+
+    public  static  void  updateProductById(Product product,DataBaseResult dataBaseResult)
+    {
+        FirebaseFirestore db=FirebaseFirestore.getInstance();
+        CollectionReference collectionReferenceProducts = db.collection(Constants.DB_PRODUCTS);
+        collectionReferenceProducts.document(product.getId()).set(product).addOnCompleteListener(new OnCompleteListener<Void>()
+        {
+            @Override
+            public void onComplete (@NonNull @NotNull Task<Void> task) {
+
+                if(task.isSuccessful())
+                {
+                    dataBaseResult.onResult(false,"Updated Successfully",null);
+                }
+                else
+                {
+                    dataBaseResult.onResult(true,task.getException().getMessage(),null);
+                }
+
+            }
+        });
+    }
+
+    public  static  void  updateOrderById(Order order,DataBaseResult dataBaseResult)
+    {
+        FirebaseFirestore db=FirebaseFirestore.getInstance();
+        CollectionReference collectionReferenceProducts = db.collection(Constants.DB_ORDERS);
+        collectionReferenceProducts.document(order.getOrderid()).set(order).addOnCompleteListener(new OnCompleteListener<Void>()
+        {
+            @Override
+            public void onComplete (@NonNull @NotNull Task<Void> task) {
+
+                if(task.isSuccessful())
+                {
+                    dataBaseResult.onResult(false,"Updated Successfully",null);
+                }
+                else
+                {
+                    dataBaseResult.onResult(true,task.getException().getMessage(),null);
+                }
+
+            }
+        });
+    }
     public static   void  updateProfile(User user,DataBaseResult dataBaseResult)
     {
 
@@ -216,6 +283,55 @@ public class FireStoreDatabaseManager
             }
         });
     }
+
+
+    public  static  void  loadordersbyid(String id,DataBaseResult dataBaseResult)
+    {
+        FirebaseFirestore db=FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = db.collection(Constants.DB_ORDERS);
+        collectionReference.whereEqualTo("sellerid",id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        {
+            @Override
+            public void onComplete (@NonNull @NotNull Task<QuerySnapshot> task)
+            {
+                if(task.isSuccessful())
+                {
+
+                    List<Order> orderArrayList=new ArrayList<>();
+                    if(task.getResult().isEmpty())
+                    {
+                        dataBaseResult.onResult(true,"No Orders Found",null);
+                    }
+                    else
+                    {
+                        QuerySnapshot result = task.getResult();
+                        for(DocumentSnapshot documentSnapshot:result.getDocuments())
+                        {
+                            Order order = documentSnapshot.toObject(Order.class);
+                            orderArrayList.add(order);
+                        }
+
+                        if(!orderArrayList.isEmpty())
+                        {
+                            dataBaseResult.onResult(false,"Orders Found",orderArrayList);
+                        }
+                        else
+                        {
+                            dataBaseResult.onResult(true,"No Orders Found",null);
+
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    dataBaseResult.onResult(true,task.getException().getMessage(),null);
+                }
+
+            }
+        });
+    }
     public  static  void  addProduct(Product product,DataBaseResult dataBaseResult)
     {
 
@@ -232,6 +348,34 @@ public class FireStoreDatabaseManager
                 if(task.isSuccessful())
                 {
                     dataBaseResult.onResult(false,"Product Uploaded Successfully",null);
+                }
+                else
+                {
+                    dataBaseResult.onResult(true,task.getException().getMessage(),null);
+                }
+
+            }
+        });
+
+    }
+
+
+    public  static  void  addOrder (Order order, DataBaseResult dataBaseResult)
+    {
+
+        FirebaseFirestore db=FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = db.collection(Constants.DB_ORDERS);
+        DocumentReference document = collectionReference.document();
+        order.setOrderid(document.getId());
+        document.set(order).addOnCompleteListener(new OnCompleteListener<Void>()
+        {
+            @Override
+            public void onComplete (@NonNull @NotNull Task<Void> task)
+            {
+
+                if(task.isSuccessful())
+                {
+                    dataBaseResult.onResult(false,"Order Uploaded Successfully",null);
                 }
                 else
                 {
