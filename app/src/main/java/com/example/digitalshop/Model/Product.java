@@ -12,6 +12,15 @@ public class Product implements Serializable
     private String name;
     private String detail;
 
+    public Integer getRatingcount () {
+        return ratingcount;
+    }
+
+    public void setRatingcount (Integer ratingcount) {
+        this.ratingcount = ratingcount;
+    }
+
+    private  Integer ratingcount=0;
     public Double getPrice () {
         return price;
     }
@@ -43,6 +52,16 @@ public class Product implements Serializable
     private  List<String> images;
     private String uploadername;
     private  String uploadershopname;
+
+    public String getUploaderphone () {
+        return uploaderphone;
+    }
+
+    public void setUploaderphone (String uploaderphone) {
+        this.uploaderphone = uploaderphone;
+    }
+
+    private  String uploaderphone;
 
     public String getId () {
         return id;

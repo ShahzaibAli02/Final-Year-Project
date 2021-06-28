@@ -5,22 +5,27 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.digitalshop.Activities.Authentication.Login_SignUp;
 import com.example.digitalshop.Interfaces.ImageListener;
 import com.example.digitalshop.R;
+import com.example.digitalshop.SharedPref;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.vansuita.pickimage.bean.PickResult;
@@ -36,11 +41,15 @@ public class Util
 
     public  static  void  showSnackBarMessage(Activity activity,String Message)
     {
+        if(activity==null)
+            return;
         Snackbar.make(activity.findViewById(android.R.id.content),Message, BaseTransientBottomBar.LENGTH_LONG).show();
     }
 
     public static void showSnackBar(Activity activity, String message)
     {
+        if(activity==null)
+            return;
         Snackbar.make(activity.findViewById(android.R.id.content),message,BaseTransientBottomBar.LENGTH_LONG).show();
     }
     public static Snackbar getSnackBar(Activity activity, String message)
@@ -55,6 +64,8 @@ public class Util
     public  static Dialog createDialog(Activity activity,int layout)
     {
 
+        if(activity==null)
+            return null;
         Dialog dialog=new Dialog(activity);
         dialog.setContentView(layout);
         dialog.setCancelable(true);
@@ -105,6 +116,30 @@ public class Util
 
     }
 
+    public static  boolean  needsLogIn(Activity activity)
+    {
+        if(activity==null)
+            return true;
+        if(SharedPref.getUser(activity)==null)
+        {
+
+            Dialog dialog = createDialog(activity , R.layout.lyt_dialog_login);
+            Button btnLogin=dialog.findViewById(R.id.btnLogin);
+            btnLogin.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick (View v)
+                {
+                    dialog.dismiss();
+                    activity.startActivity(new Intent(activity, Login_SignUp.class));
+                }
+            });
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            dialog.show();
+            return true;
+        }
+        return false;
+    }
     public static boolean isPhoneValid(String phone)
     {
         return (Patterns.PHONE.matcher(phone).matches());

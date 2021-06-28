@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".Activities.Buyer.BuyerOrderDetailsActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:elevation="10dp"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="10dp"
+            >
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:onClick="onClickBack"
+                android:src="@drawable/ic_back"
+                />
+        </androidx.cardview.widget.CardView>
+
+        <com.smarteist.autoimageslider.SliderView
+            android:id="@+id/imageSlider"
+            android:onClick="onClickBack"
+            android:layout_marginTop="-60dp"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/txtProductPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PKR --"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:gravity="start|center"
+            android:textSize="25dp"
+            android:fontFamily="@font/orelega_one_regular"
+            />
+
+        <TextView
+            android:id="@+id/txtProductName"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="20dp"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:text="---"
+            android:textColor="@color/black"
+            android:textSize="23dp"
+            android:fontFamily="@font/orelega_one_regular"
+            />
+
+
+        <TextView
+            android:id="@+id/txtby"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="By --"
+            android:layout_marginTop="5dp"
+            android:textColor="#8F8F8F"
+            android:layout_marginStart="20dp"
+            android:textSize="13dp"
+            android:fontFamily="@font/roboto_bold"
+            />
+        <TextView
+            android:id="@+id/txtPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Seller Contact  --"
+            android:layout_marginTop="5dp"
+            android:textColor="#8F8F8F"
+            android:layout_marginStart="20dp"
+            android:textSize="13dp"
+            android:fontFamily="@font/roboto_bold"
+            />
+
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Order Status"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/light_black"
+            android:gravity="start|center"
+            android:textSize="25dp"
+            android:fontFamily="@font/orelega_one_regular"
+            />
+
+
+
+        <TextView
+            android:id="@+id/txtOrderCancelled"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Order Cancelled"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/Red"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textSize="25dp"
+            android:fontFamily="@font/orelega_one_regular"
+            />
+
+
+        <LinearLayout
+            android:id="@+id/layoutOrderStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+               android:id="@+id/circleImageView1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@color/Silver"
+                android:layout_gravity="center"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                >
+                <TextView
+                    android:id="@+id/txtProcessing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Order Placed"
+                    android:textColor="@color/light_black"
+                    android:layout_marginStart="20dp"
+                    android:textSize="18dp"
+                    android:fontFamily="@font/roboto_bold"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="We have Received Your Order"
+                    android:textColor="#8F8F8F"
+                    android:layout_marginStart="20dp"
+                    android:textSize="13dp"
+                    android:fontFamily="@font/roboto_bold"
+                    />
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+        <View
+            android:id="@+id/view1"
+            android:layout_width="3dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="-7dp"
+            android:layout_marginStart="43dp"
+            android:background="@color/Silver"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="-10dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/circleImageView2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@color/Silver"
+                android:layout_gravity="center"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Order Shipped"
+                    android:textColor="@color/light_black"
+                    android:layout_marginStart="20dp"
+                    android:textSize="18dp"
+                    android:fontFamily="@font/roboto_bold"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="We have Shipped Your Order"
+                    android:textColor="#8F8F8F"
+                    android:layout_marginStart="20dp"
+                    android:textSize="13dp"
+                    android:fontFamily="@font/roboto_bold"
+                    />
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="3dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="-7dp"
+            android:layout_marginStart="43dp"
+            android:background="@color/Silver"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="-10dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/circleImageView3"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@color/Silver"
+                android:layout_gravity="center"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Order Delivered"
+                    android:textColor="@color/light_black"
+                    android:layout_marginStart="20dp"
+                    android:textSize="18dp"
+                    android:fontFamily="@font/roboto_bold"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Your order is delivered"
+                    android:textColor="#8F8F8F"
+                    android:layout_marginStart="20dp"
+                    android:textSize="13dp"
+                    android:fontFamily="@font/roboto_bold"
+                    />
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

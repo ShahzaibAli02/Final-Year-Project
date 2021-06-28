@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.digitalshop.Activities.Seller.SellerDashBoard;
@@ -46,9 +47,7 @@ public class SellerProductsFragment extends Fragment implements ClickListener
     SpinKitView spin_kit;
     EditText edit_query;
     Object originalData;
-
-
-
+    LinearLayout lyt_empty;
     @Override
     public View onCreateView (LayoutInflater inflater , ViewGroup container ,
                               Bundle savedInstanceState)
@@ -136,31 +135,10 @@ public class SellerProductsFragment extends Fragment implements ClickListener
                 }
                 eventAdapter.notifyDataSetChanged();
                 recyclerView.scheduleLayoutAnimation();
-                spin_kit.setVisibility(orderslist.isEmpty()?View.VISIBLE:View.GONE);
+                spin_kit.setVisibility(View.GONE);
+                lyt_empty.setVisibility(orderslist.isEmpty()?View.VISIBLE:View.GONE);
                 recyclerView.setVisibility(orderslist.isEmpty()?View.GONE:View.VISIBLE);
 
-
-
-               /* Order order=new Order();
-                order.setCreatedat(Timestamp.now().getSeconds());
-                order.setUpdatedat(Timestamp.now().getSeconds());
-                order.setOrderStatus(OrderStatus.PROCESSING);
-                order.setQuantity(1);
-                order.setUser(SharedPref.getUser(getActivity()));
-                order.setProduct(orderslist.get(0));
-                order.setTotalprice(order.getProduct().getPrice()*order.getQuantity());
-                order.setSellerid(order.getProduct().getUid());
-                FireStoreDatabaseManager.addOrder(order , new DataBaseResult()
-                {
-                    @Override
-                    public void onResult (boolean error , String Message , Object data) {
-
-                        Util.showCustomToast(getActivity(),Message,error);
-                    }
-                });
-
-
-                */
 
 
 
@@ -174,6 +152,8 @@ public class SellerProductsFragment extends Fragment implements ClickListener
     {
 
 
+
+        lyt_empty=view.findViewById(R.id.lyt_empty);
         spin_kit=view.findViewById(R.id.spin_kit);
         recyclerView=view.findViewById(R.id.recyclerView);
         edit_query=view.findViewById(R.id.edit_query);

@@ -33,7 +33,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         this.listData = listData;
         this.context=context;
         this.clickListener=clickListener;
-        isSeller=SharedPref.getUser(context).getRole().equalsIgnoreCase("seller");
+        isSeller=SharedPref.getUserType(context).equalsIgnoreCase("seller");
 
     }
     @NonNull

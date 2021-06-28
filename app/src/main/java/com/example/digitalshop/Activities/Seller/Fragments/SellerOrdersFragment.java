@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.example.digitalshop.Activities.Seller.SellerDashBoard;
 import com.example.digitalshop.Activities.Seller.SellerOrderDetailsActivity;
@@ -46,9 +47,7 @@ public class SellerOrdersFragment extends Fragment implements ClickListener
     SpinKitView spin_kit;
     EditText edit_query;
     Object originalData;
-
-
-
+    LinearLayout lyt_empty;
     @Override
     public View onCreateView (LayoutInflater inflater , ViewGroup container ,
                               Bundle savedInstanceState)
@@ -134,7 +133,8 @@ public class SellerOrdersFragment extends Fragment implements ClickListener
                 }
                 orderAdapter.notifyDataSetChanged();
                 recyclerView.scheduleLayoutAnimation();
-                spin_kit.setVisibility(orderslist.isEmpty()?View.VISIBLE:View.GONE);
+                spin_kit.setVisibility(View.GONE);
+                lyt_empty.setVisibility(orderslist.isEmpty()?View.VISIBLE:View.GONE);
                 recyclerView.setVisibility(orderslist.isEmpty()?View.GONE:View.VISIBLE);
 
 
@@ -149,6 +149,7 @@ public class SellerOrdersFragment extends Fragment implements ClickListener
     {
 
 
+        lyt_empty=view.findViewById(R.id.lyt_empty);
         spin_kit=view.findViewById(R.id.spin_kit);
         recyclerView=view.findViewById(R.id.recyclerView);
         edit_query=view.findViewById(R.id.edit_query);

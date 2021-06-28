@@ -75,6 +75,16 @@ public class Order implements Serializable
     private  String orderid;
     private  String userid;
 
+    public Boolean getIsreviewed () {
+        return isreviewed;
+    }
+
+    public void setIsreviewed (Boolean isreviewed) {
+        this.isreviewed = isreviewed;
+    }
+
+    private  Boolean isreviewed=false;
+
     public String getUserid () {
         return userid;
     }
@@ -98,6 +108,19 @@ public class Order implements Serializable
     private  User user;
     private  Product product;
     private  Integer quantity;
+
+
+
+
+    public String getPayment_method () {
+        return payment_method;
+    }
+
+    public void setPayment_method (String payment_method) {
+        this.payment_method = payment_method;
+    }
+
+    private  String payment_method;
 
     public Integer getQuantity () {
         return quantity;

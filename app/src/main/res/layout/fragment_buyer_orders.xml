@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activities.Buyer.Fragments.BuyerOrdersFragment">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="15dp"
+        android:text="My Orders"
+        android:textSize="35dp"
+        android:fontFamily="@font/orelega_one_regular"
+        android:textColor="@color/light_black"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Active Orders"
+            android:textSize="20dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/orelega_one_regular"
+            />
+        <ImageView
+            android:id="@+id/imgActiveOrders"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_not_expanded"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/lyt_activeorders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewActiveOrders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            />
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/spin_kit_active_orders"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            />
+        <TextView
+            android:id="@+id/txtEmptyActiveOrders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No Active Orders"
+            android:gravity="center"
+            android:textSize="14dp"
+            android:visibility="gone"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/montserrat_black"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Past Orders"
+            android:textSize="20dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/orelega_one_regular"
+            />
+        <ImageView
+            android:id="@+id/imgPastOrders"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_not_expanded"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lyt_pastorders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewPastOrders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            />
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/spin_kit_past_orders"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            />
+        <TextView
+            android:id="@+id/txtEmptyPastOrders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No Past Orders"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textSize="14dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/montserrat_black"
+            />
+    </LinearLayout>
+
+</LinearLayout>

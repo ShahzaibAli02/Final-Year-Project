@@ -4,6 +4,7 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
+import com.example.digitalshop.Enums.OrderStatus;
 import com.example.digitalshop.Interfaces.DataBaseResult;
 import com.example.digitalshop.Interfaces.ImageUploadListener;
 import com.example.digitalshop.Model.Analytics;
@@ -18,7 +19,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -29,6 +32,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 public class FireStoreDatabaseManager
@@ -283,6 +287,64 @@ public class FireStoreDatabaseManager
             }
         });
     }
+    public  static  void  updateAnalyticVal(String uid,String fieldName,Long val)
+    {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = db.collection(Constants.DB_ANALYTICS);
+        HashMap<String,Object> hashMap=new HashMap<>();
+        hashMap.put(fieldName, FieldValue.increment(val));
+        collectionReference.document(uid).update(hashMap);
+
+    }
+
+    public  static  void  loadAllProducts(DataBaseResult dataBaseResult)
+    {
+        FirebaseFirestore db=FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = db.collection(Constants.DB_PRODUCTS);
+
+        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        {
+            @Override
+            public void onComplete (@NonNull @NotNull Task<QuerySnapshot> task)
+            {
+                if(task.isSuccessful())
+                {
+
+                    List<Product> productList=new ArrayList<>();
+                    if(task.getResult().isEmpty())
+                    {
+                        dataBaseResult.onResult(true,"No Products Found",null);
+                    }
+                    else
+                    {
+                        QuerySnapshot result = task.getResult();
+                        for(DocumentSnapshot documentSnapshot:result.getDocuments())
+                        {
+                            Product product = documentSnapshot.toObject(Product.class);
+                            productList.add(product);
+                        }
+
+                        if(!productList.isEmpty())
+                        {
+                            dataBaseResult.onResult(false,"Products Found",productList);
+                        }
+                        else
+                        {
+                            dataBaseResult.onResult(true,"No Products Found",null);
+
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    dataBaseResult.onResult(true,task.getException().getMessage(),null);
+                }
+
+            }
+        });
+    }
 
 
     public  static  void  loadordersbyid(String id,DataBaseResult dataBaseResult)
@@ -309,6 +371,73 @@ public class FireStoreDatabaseManager
                         {
                             Order order = documentSnapshot.toObject(Order.class);
                             orderArrayList.add(order);
+                        }
+
+                        if(!orderArrayList.isEmpty())
+                        {
+                            dataBaseResult.onResult(false,"Orders Found",orderArrayList);
+                        }
+                        else
+                        {
+                            dataBaseResult.onResult(true,"No Orders Found",null);
+
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    dataBaseResult.onResult(true,task.getException().getMessage(),null);
+                }
+
+            }
+        });
+    }
+
+    public  static  void  loadOrderByIdAndStatus (String id, OrderStatus orderstatus, DataBaseResult dataBaseResult)
+    {
+        FirebaseFirestore db=FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = db.collection(Constants.DB_ORDERS);
+        Query query = collectionReference.whereEqualTo("userid" , id);
+
+
+
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        {
+            @Override
+            public void onComplete (@NonNull @NotNull Task<QuerySnapshot> task)
+            {
+                if(task.isSuccessful())
+                {
+
+                    List<Order> orderArrayList=new ArrayList<>();
+                    if(task.getResult().isEmpty())
+                    {
+                        dataBaseResult.onResult(true,"No Orders Found",null);
+                    }
+                    else
+                    {
+                        QuerySnapshot result = task.getResult();
+                        for(DocumentSnapshot documentSnapshot:result.getDocuments())
+                        {
+                            Order order = documentSnapshot.toObject(Order.class);
+
+                            if(orderstatus==OrderStatus.PROCESSING)
+                            {
+
+                                if(order.getOrderStatus()!=OrderStatus.DELIVERED && order.getOrderStatus()!=OrderStatus.CANCELLED)
+                                {
+                                    orderArrayList.add(order);
+                                }
+                            }
+                            if(orderstatus==OrderStatus.DELIVERED)
+                            {
+                               if(order.getOrderStatus()==OrderStatus.DELIVERED || order.getOrderStatus()==OrderStatus.CANCELLED)
+                               {
+                                   orderArrayList.add(order);
+                               }
+                            }
                         }
 
                         if(!orderArrayList.isEmpty())

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -40,7 +41,8 @@ public class SellerDashBoard extends AppCompatActivity
        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
              window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(getColor(R.color.background));
+            window.setStatusBarColor(getColor(R.color.white));
+           getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
 
@@ -55,7 +57,7 @@ public class SellerDashBoard extends AppCompatActivity
             {
 
                 if(window!=null)
-                    window.setStatusBarColor(getColor(R.color.background));
+                    window.setStatusBarColor(getColor(R.color.white));
                 if(i==R.id.home)
                 {
                     navigateTo(new SellerHomeFragment());

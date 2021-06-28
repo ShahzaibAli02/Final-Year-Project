@@ -181,7 +181,7 @@ public class SellerProfileFragment extends Fragment implements View.OnClickListe
     private void saveChanges ()
     {
 
-        AlertDialog progressDialogManager=ProgressDialogManager.getProgressDialog(getActivity(),new RectSprite(),R.color.colorPrimary);
+        AlertDialog progressDialogManager=ProgressDialogManager.getProgressDialog(getActivity());
         progressDialogManager.show();
 
         user.setPhone(editTextPhone.getText().toString());

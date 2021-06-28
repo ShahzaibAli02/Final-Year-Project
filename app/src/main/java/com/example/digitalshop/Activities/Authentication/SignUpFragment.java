@@ -21,6 +21,7 @@ import com.example.digitalshop.Interfaces.DataBaseResult;
 import com.example.digitalshop.Interfaces.ImageListener;
 import com.example.digitalshop.Model.User;
 import com.example.digitalshop.R;
+import com.example.digitalshop.SharedPref;
 import com.example.digitalshop.Utils.ProgressDialogManager;
 import com.example.digitalshop.Utils.Util;
 
@@ -157,7 +158,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         user.setAddress(editTextAddress.getText().toString());
         user.setPhone(editTextPhone.getText().toString());
         user.setEmail(editTextEmail.getText().toString());
-        user.setRole("seller");
+        user.setRole(SharedPref.getUserType(getActivity()));
         return user;
     }
 

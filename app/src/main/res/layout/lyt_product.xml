@@ -59,7 +59,6 @@
                         android:id="@+id/imgEvent"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="fitXY"
                         android:src="@drawable/img"
                         android:elevation="10dp"
                         />
@@ -129,6 +128,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginTop="20dp"
+
                     >
 
                     <TextView
@@ -140,7 +140,7 @@
                         android:text="PkR 125"
                         android:layout_gravity="center"
                         android:textColor="@color/light_black"
-                        android:textSize="18dp"
+                        android:textSize="15dp"
                         android:fontFamily="@font/orelega_one_regular"
                         />
 

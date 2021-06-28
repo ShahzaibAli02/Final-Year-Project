@@ -16,6 +16,7 @@ import com.example.digitalshop.FireStoreDatabaseManager;
 import com.example.digitalshop.Interfaces.DataBaseResult;
 import com.example.digitalshop.Model.Order;
 import com.example.digitalshop.R;
+import com.example.digitalshop.SharedPref;
 import com.example.digitalshop.Utils.ProgressDialogManager;
 import com.example.digitalshop.Utils.Util;
 import com.google.firebase.Timestamp;
@@ -111,6 +112,12 @@ public class SellerOrderDetailsActivity extends AppCompatActivity implements Vie
     {
         if(v==txtChangeStatus)
         {
+
+            if(order.getOrderStatus()==OrderStatus.DELIVERED || order.getOrderStatus()==OrderStatus.CANCELLED)
+            {
+                Util.showCustomToast(this,"You cannot change already delivered or Cancelled order state",true);
+                return;
+            }
             Dialog dialog = Util.createDialog(this , R.layout.lyt_dialog_change_status);
             Spinner spinnerStatus=dialog.findViewById(R.id.spinnerStatus);
             Button btnUpdate=dialog.findViewById(R.id.btnUpdate);
@@ -121,6 +128,9 @@ public class SellerOrderDetailsActivity extends AppCompatActivity implements Vie
                 {
                     dialog.dismiss();
                     OrderStatus orderstatus = OrderStatus.valueOf(spinnerStatus.getSelectedItem().toString());
+
+                    if(spinnerStatus.getSelectedItem().toString().equalsIgnoreCase("DELIVERED"))
+                        FireStoreDatabaseManager.updateAnalyticVal(SharedPref.getUser(SellerOrderDetailsActivity.this).getUid(),"earning",order.getTotalprice().longValue());
                     order.setUpdatedat(Timestamp.now().getSeconds());
                     order.setOrderStatus(orderstatus);
                     updateOrder();
@@ -140,6 +150,7 @@ public class SellerOrderDetailsActivity extends AppCompatActivity implements Vie
             public void onResult (boolean error , String Message , Object data) {
                 progressDialog.dismiss();
                 Util.showCustomToast(SellerOrderDetailsActivity.this,Message,error);
+
                 if(!error)
                     setVals();
             }

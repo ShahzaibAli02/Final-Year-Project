@@ -351,6 +351,7 @@ public class SellerAddProductFragment extends Fragment implements View.OnClickLi
 
         User user= SharedPref.getUser(getActivity());
         product.setAddress(user.getAddress());
+        product.setUploaderphone(user.getPhone());
         product.setUploadername(user.getName());
         product.setUploadershopname(user.getShopname());
         product.setUid(user.getUid());
@@ -371,7 +372,7 @@ public class SellerAddProductFragment extends Fragment implements View.OnClickLi
         }
         if(images[0].isEmpty())
         {
-            Util.showSnackBar(getActivity(),"Please Select At least One Image of product");
+            Util.showSnackBar(getActivity(),"Please Select First Image");
             return false;
         }
 

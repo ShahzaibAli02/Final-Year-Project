@@ -84,6 +84,8 @@
         android:layout_gravity="center"
         app:SpinKit_Color="@color/colorPrimary" />
 
-
+    <include
+        layout="@layout/lyt_empty"
+        />
 
 </LinearLayout>

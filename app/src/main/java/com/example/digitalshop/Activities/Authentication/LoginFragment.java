@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.digitalshop.Activities.Buyer.BuyerDashBoardActivity;
 import com.example.digitalshop.Activities.Seller.SellerDashBoard;
 import com.example.digitalshop.FireStoreDatabaseManager;
 import com.example.digitalshop.Interfaces.DataBaseResult;
@@ -146,8 +147,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     }
                     else
                     {
-                        //TODO
-                        Util.showSnackBar(getActivity(),"USER ");
+                        getActivity().finish();
+                        getActivity().startActivity(new Intent(getActivity(), BuyerDashBoardActivity.class));
                     }
 
 

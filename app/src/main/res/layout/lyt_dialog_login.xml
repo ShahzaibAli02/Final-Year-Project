@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_margin="5dp"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@drawable/rounded_edittext"
+    android:layout_height="wrap_content">
+
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:src="@drawable/logo"
+        />
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please Login to perform this action"
+        android:textSize="18dp"
+        android:textColor="@color/light_black"
+        android:fontFamily="@font/montserrat_black"
+        android:gravity="center"
+        />
+
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="19dp"
+        android:background="@drawable/back_default"
+        android:text="Login"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18dp" />
+
+</LinearLayout>
