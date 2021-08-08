@@ -7,19 +7,50 @@ public class User implements Serializable
 
     public  String uid;
     public  String name;
+
+    public String getShop_name () {
+        return shop_name;
+    }
+
+    public void setShop_name (String shop_name) {
+        this.shop_name = shop_name;
+    }
+
+    public String getShop_description () {
+        return shop_description;
+    }
+
+    public void setShop_description (String shop_description) {
+        this.shop_description = shop_description;
+    }
+
+    public double getLat () {
+        return lat;
+    }
+
+    public void setLat (double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng () {
+        return lng;
+    }
+
+    public void setLng (double lng) {
+        this.lng = lng;
+    }
+
+    public  String shop_name;
+    public  String shop_description;
+
+    public  double lat;
+    public  double lng;
+
+
     public  String email;
     public  String phone;
     public  String role;
 
-    public String getShopname () {
-        return shopname;
-    }
-
-    public void setShopname (String shopname) {
-        this.shopname = shopname;
-    }
-
-    public  String shopname;
 
     public String getRole () {
         return role;
@@ -82,6 +113,8 @@ public class User implements Serializable
 
     public  String address;
 
-
-
+    @Override
+    public String toString () {
+        return shop_name;
+    }
 }

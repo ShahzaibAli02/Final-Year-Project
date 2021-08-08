@@ -353,13 +353,15 @@ public class SellerAddProductFragment extends Fragment implements View.OnClickLi
         product.setAddress(user.getAddress());
         product.setUploaderphone(user.getPhone());
         product.setUploadername(user.getName());
-        product.setUploadershopname(user.getShopname());
+        product.setUploadershopname(user.getShop_name());
         product.setUid(user.getUid());
         product.setName(editTextName.getText().toString());
         product.setDetail(editTextDetail.getText().toString());
         product.setCategory(spinnerCategory.getSelectedItem().toString());
         product.setPrice(Double.valueOf(editTextPrice.getText().toString()));
         product.setArrImages(images);
+        product.setLat(user.getLat());
+        product.setLng(user.getLng());
         product.setRating(0.0f);
         return product;
     }

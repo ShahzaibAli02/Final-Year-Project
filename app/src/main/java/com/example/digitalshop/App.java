@@ -10,5 +10,7 @@ public class App extends Application
     public void onCreate () {
         super.onCreate();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+
     }
 }

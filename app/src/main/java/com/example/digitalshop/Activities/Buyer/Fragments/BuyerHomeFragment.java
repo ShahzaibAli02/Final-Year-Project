@@ -1,37 +1,51 @@
 package com.example.digitalshop.Activities.Buyer.Fragments;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.digitalshop.Activities.Buyer.BuyerDashBoardActivity;
 import com.example.digitalshop.Activities.Buyer.BuyerProductDetailActivity;
 import com.example.digitalshop.Adapters.BuyerHomeAdapter;
 import com.example.digitalshop.Adapters.ProductAdapter;
 import com.example.digitalshop.Adapters.SliderAdapter;
+import com.example.digitalshop.Enums.PriceFilter;
 import com.example.digitalshop.FireStoreDatabaseManager;
 import com.example.digitalshop.Interfaces.ClickListener;
 import com.example.digitalshop.Interfaces.DataBaseResult;
+import com.example.digitalshop.Interfaces.LocationListener;
 import com.example.digitalshop.Model.Product;
 import com.example.digitalshop.R;
+import com.example.digitalshop.Utils.LocationProvider;
 import com.example.digitalshop.Utils.ProgressDialogManager;
 import com.example.digitalshop.Utils.Util;
 import com.github.ybq.android.spinkit.SpinKitView;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.material.slider.Slider;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -39,6 +53,8 @@ import com.smarteist.autoimageslider.SliderView;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class BuyerHomeFragment extends Fragment implements ClickListener
@@ -54,6 +70,7 @@ public class BuyerHomeFragment extends Fragment implements ClickListener
     Object originalData;
     com.smarteist.autoimageslider.SliderView sliderView;
     ImageView imgCart;
+    CardView cardFilter;
     @Override
     public View onCreateView (LayoutInflater inflater , ViewGroup container ,
                               Bundle savedInstanceState)
@@ -117,6 +134,129 @@ public class BuyerHomeFragment extends Fragment implements ClickListener
 
             }
         });
+
+
+        cardFilter.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick (View v)
+            {
+
+                Dialog dialog=Util.getDialog(getActivity(),R.layout.lyt_dialog_filter);
+
+                TextView txtkms=dialog.findViewById(R.id.txtKms);
+                Slider sliderKms=dialog.findViewById(R.id.slider);
+                Spinner spinnerPrice=dialog.findViewById(R.id.spinnerSortPrice);
+                Button btnApply=dialog.findViewById(R.id.btnApply);
+
+                sliderKms.addOnChangeListener(new Slider.OnChangeListener()
+                {
+                    @Override
+                    public void onValueChange (@NonNull Slider slider , float value , boolean fromUser) {
+                        txtkms.setText(String.format("( %s Km )" , (int)value));
+                    }
+                });
+
+
+                btnApply.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick (View v) {
+                        dialog.dismiss();
+                        applyFilter(getPriceFilterType(spinnerPrice.getSelectedItemPosition()),sliderKms.getValue());
+                    }
+                });
+
+                dialog.show();
+
+            }
+        });
+    }
+
+    private PriceFilter getPriceFilterType (int selectedItemPosition)
+    {
+
+        if(selectedItemPosition==0)
+                return  PriceFilter.NO_FILTER;
+
+        if(selectedItemPosition==1)
+            return  PriceFilter.HIGH;
+
+        if(selectedItemPosition==2)
+            return  PriceFilter.LOW;
+
+        return PriceFilter.NO_FILTER;
+    }
+
+
+
+    private void applyFilter (PriceFilter priceFilter , float filterkms)
+    {
+
+        AlertDialog progressDialog = ProgressDialogManager.getProgressDialog(getActivity());
+        progressDialog.show();
+        Util.loadLocation((AppCompatActivity) getActivity() , new LocationListener()
+        {
+            @Override
+            public void onLocationLoad (LatLng mylatLng)
+            {
+
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
+
+                Location mylocation = new Location("mylocation");
+                mylocation.setLatitude(mylatLng.latitude);
+                mylocation.setLongitude(mylatLng.longitude);
+
+
+                List <Product> filteredList = new ArrayList <>();
+                for (Product event : orderslist)
+                {
+                    Location locationShop = new Location("ShopLocation");
+                    locationShop.setLatitude(event.getLat());
+                    locationShop.setLongitude(event.getLng());
+
+
+                    if (getDistance(locationShop , mylocation) <= filterkms)
+                    {
+                        filteredList.add(event);
+                    }
+
+
+                }
+
+                if(!filteredList.isEmpty() && priceFilter!=PriceFilter.NO_FILTER)
+                {
+
+                    filteredList.sort(new Comparator <Product>()
+                    {
+                        @Override
+                        public int compare (Product o1 , Product o2) {
+
+                            if (priceFilter == PriceFilter.LOW)
+                            {
+                                return o1.getPrice().compareTo(o2.getPrice());
+                            }
+                            else
+                                return o2.getPrice().compareTo(o1.getPrice());
+
+                        }
+                    });
+
+
+                }
+                orderslist.clear();
+                orderslist.addAll(filteredList);
+                buyerHomeAdapter.notifyDataSetChanged();
+            }
+        });
+
+
+    }
+
+    private float getDistance (Location locationShop , Location mylocation)
+    {
+        return  locationShop.distanceTo(mylocation)/1000;
     }
 
     private void loadData ()
@@ -168,6 +308,7 @@ public class BuyerHomeFragment extends Fragment implements ClickListener
         spin_kit=view.findViewById(R.id.spin_kit);
         recyclerView=view.findViewById(R.id.recyclerView);
         edit_query=view.findViewById(R.id.edit_query);
+        cardFilter=view.findViewById(R.id.cardFilter);
 
         buyerHomeAdapter =new BuyerHomeAdapter(orderslist,getActivity(),this);
 

@@ -1,5 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/drawable-anydpi/mylocation.xml" value="0.19322916666666667" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/drawable/table_content_cell_bg.xml" value="0.18177083333333333" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/activity_buyer_order_details.xml" value="0.10461956521739131" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/activity_buyer_product_detail.xml" value="0.22" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/activity_maps.xml" value="0.12" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/activity_payment.xml" value="0.14175724637681159" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/activity_seller_buyer_selection.xml" value="0.16" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/activity_seller_dash_board.xml" value="0.10009057971014493" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/fragment_buyer_cart.xml" value="0.10009057971014493" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/fragment_buyer_home.xml" value="0.25" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/fragment_create_buyer_request.xml" value="0.2" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/fragment_login.xml" value="0.22" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/fragment_seller_add_product.xml" value="0.18" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/fragment_sign_up.xml" value="0.22" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/list_item_simple.xml" value="0.13360507246376813" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/lyt_custom_maps_toolbar.xml" value="0.18" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/lyt_dialog_change_status.xml" value="0.18" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/lyt_dialog_filter.xml" value="0.2" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/lyt_dialog_foget_pass.xml" value="0.10009057971014493" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/lyt_dialog_leave_review.xml" value="0.10009057971014493" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/lyt_dialog_payment_selection.xml" value="0.21" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/lyt_dialog_seller_buyer_selection.xml" value="0.14175724637681159" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/menu/menu_buyer.xml" value="0.21" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

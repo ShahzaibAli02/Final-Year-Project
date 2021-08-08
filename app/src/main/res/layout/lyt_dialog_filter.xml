@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="5dp"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@color/white"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="10dp"
+    android:layout_height="wrap_content">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    >
+
+
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Filters"
+        android:layout_marginBottom="20dp"
+        android:textSize="25dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/orelega_one_regular"
+        android:gravity="center"
+        />
+
+
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="Sort By Kms"
+        android:textSize="18dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/roboto_regular"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:id="@+id/txtKms"
+        android:layout_marginTop="-30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="( 1 KM )"
+        android:textSize="15dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:fontFamily="@font/roboto_regular"
+        android:textStyle="bold"
+        />
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/slider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:valueFrom="1"
+        android:valueTo="1000"
+        android:textStyle="bold"
+        />
+
+
+
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sort By Price"
+        android:textSize="18dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/roboto_regular"
+        android:textStyle="bold"
+        />
+
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/rounded_edittext"
+        >
+        <Spinner
+            android:id="@+id/spinnerSortPrice"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:singleLine="true"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:entries="@array/sort_price"
+            />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnApply"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="19dp"
+        android:background="@drawable/back_default"
+        android:gravity="center"
+        android:text="Apply"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18dp" />
+</LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

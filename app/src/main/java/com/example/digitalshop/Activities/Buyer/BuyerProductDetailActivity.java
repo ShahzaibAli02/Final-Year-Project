@@ -3,19 +3,26 @@ package com.example.digitalshop.Activities.Buyer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.digitalshop.Activities.Payment;
 import com.example.digitalshop.Adapters.SliderAdapter;
 import com.example.digitalshop.Enums.OrderStatus;
 import com.example.digitalshop.FireStoreDatabaseManager;
 import com.example.digitalshop.Interfaces.DataBaseResult;
 import com.example.digitalshop.Model.Order;
 import com.example.digitalshop.Model.Product;
+import com.example.digitalshop.Model.User;
 import com.example.digitalshop.R;
 import com.example.digitalshop.SharedPref;
+import com.example.digitalshop.Utils.ProgressDialogManager;
 import com.example.digitalshop.Utils.Util;
 import com.google.firebase.Timestamp;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
@@ -44,7 +51,6 @@ public class BuyerProductDetailActivity extends AppCompatActivity
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buyer_product_detail);
-
         if(getIntent().getExtras()!=null)
         {
             product= (Product) getIntent().getExtras().getSerializable("product");
@@ -68,6 +74,8 @@ public class BuyerProductDetailActivity extends AppCompatActivity
     }
     private void initViews ()
     {
+
+
         txtPhone=findViewById(R.id.txtPhone);
         sliderView=findViewById(R.id.imageSlider);
         txtPrice=findViewById(R.id.txtProductPrice);
@@ -110,6 +118,18 @@ public class BuyerProductDetailActivity extends AppCompatActivity
             return;
 
 
+
+        addOrderIncart(getOrder());
+
+    }
+    public  void  addOrderIncart(Order order)
+    {
+        SharedPref.addInCart(getActivity(),order);
+        Util.showSnackBar(this,"Added In Cart");
+    }
+
+    public  Order getOrder()
+    {
         Order order=new Order();
         order.setCreatedat(Timestamp.now().getSeconds());
         order.setUpdatedat(Timestamp.now().getSeconds());
@@ -120,8 +140,7 @@ public class BuyerProductDetailActivity extends AppCompatActivity
         order.setTotalprice(order.getProduct().getPrice()*order.getQuantity());
         order.setSellerid(order.getProduct().getUid());
         order.setUserid(SharedPref.getUser(getActivity()).getUid());
-        SharedPref.addInCart(getActivity(),order);
-        Util.showSnackBar(this,"Added In Cart");
+        return  order;
     }
 
     private Activity getActivity () {
@@ -159,6 +178,8 @@ public class BuyerProductDetailActivity extends AppCompatActivity
 
         }
     }
+
+
 
     public void onClickBack (View view) {
         finish();

@@ -18,6 +18,18 @@
 
         >
 
+
+        <TextView
+            android:id="@+id/txtStoreImage"
+            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginStart="20dp"
+            android:text="Store Image"
+            android:layout_marginLeft="20dp" />
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/circleImageView"
             android:layout_width="96dp"
@@ -31,15 +43,66 @@
 
 
         <TextView
+            android:id="@+id/txtStoreName"
             android:layout_marginTop="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:textSize="18dp"
             android:textColor="#555454"
             android:textStyle="bold"
             android:layout_marginStart="20dp"
-            android:text="Name"
+            android:text="Store Name"
+            android:layout_marginLeft="20dp" />
+
+
+
+        <EditText
+            android:id="@+id/editTextStoreName"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/back_default"
+            android:hint="Store Name"
+            android:gravity="center"
+            android:paddingStart="10dp"
+            android:paddingLeft="10dp" />
+
+
+
+        <TextView
+            android:id="@+id/txtStoreDisc"
+            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:textColor="#555454"
+            android:textStyle="bold"
+            android:layout_marginStart="20dp"
+            android:text="Store Description"
+            android:layout_marginLeft="20dp" />
+
+
+
+        <EditText
+            android:id="@+id/editTextStoreDesc"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/back_default"
+            android:hint="In this store i sell electronics.... etc"
+            android:padding="10dp"
+            android:gravity="start" />
+
+
+        <TextView
+            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:textColor="#555454"
+            android:textStyle="bold"
+            android:layout_marginStart="20dp"
+            android:text="Your Name"
             android:layout_marginLeft="20dp" />
 
 
@@ -50,7 +113,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/back_default"
-            android:hint="Name"
+            android:hint="Shahzaib Ali"
             android:gravity="center"
             android:paddingStart="10dp"
             android:paddingLeft="10dp" />
@@ -123,14 +186,13 @@
 
 
 
-        <EditText
-            android:id="@+id/editTextAddress"
+        <TextView
+            android:id="@+id/TextAddress"
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/back_default"
             android:hint="Postal Address"
-            android:inputType="textPostalAddress"
             android:gravity="center"
             android:paddingStart="10dp"
             android:paddingLeft="10dp" />

@@ -41,7 +41,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     TextView txtforgotPass;
     TextView txtSignUp;
-    Button btnLogin;
+    Button btnLogin,btnLoginAsGuest;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +65,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         editTextPin=view.findViewById(R.id.editTextPin);
 
 
+
+        btnLoginAsGuest=view.findViewById(R.id.btnLoginAsGuest);
         btnLogin=view.findViewById(R.id.btnLogin);
         txtforgotPass=view.findViewById(R.id.txtforgotPass);
         txtSignUp=view.findViewById(R.id.txtSignUp);
@@ -74,6 +76,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         btnLogin.setOnClickListener(this);
         txtSignUp.setOnClickListener(this);
         txtforgotPass.setOnClickListener(this);
+        btnLoginAsGuest.setOnClickListener(this);
 
     }
 
@@ -110,6 +113,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             }
 
             authenticateUser();
+        }
+        if(v==btnLoginAsGuest)
+        {
+            SharedPref.saveUserType(getActivity(),"buyer");
+            startActivity(new Intent(getActivity(), BuyerDashBoardActivity.class));
+
         }
 
 

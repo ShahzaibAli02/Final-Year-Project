@@ -4,21 +4,27 @@
     package="com.example.digitalshop">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DigitalShop">
-        <activity android:name=".Activities.Buyer.BuyerOrderDetailsActivity"></activity>
+        <activity
+            android:name=".Activities.Payment"
+            android:exported="true" />
+        <activity android:name=".Activities.Buyer.BuyerOrderDetailsActivity" />
         <activity android:name=".Activities.Buyer.BuyerProductDetailActivity" />
         <activity
             android:name=".Activities.Buyer.BuyerDashBoardActivity"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".Activities.Seller_Buyer_Selection_Activity" />
         <activity android:name=".Activities.Seller.SellerOrderDetailsActivity" />
         <activity android:name=".Activities.SplashScreen">
             <intent-filter>
@@ -32,6 +38,11 @@
             android:configChanges="orientation|screenSize" />
         <activity android:name=".Activities.Authentication.Login_SignUp" />
         <activity android:name=".Activities.MainActivity" />
+        <activity android:name=".Activities.MapsActivity" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBVELHLyAexIAeWEPdXcrFdvRtNqJQhBSw" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

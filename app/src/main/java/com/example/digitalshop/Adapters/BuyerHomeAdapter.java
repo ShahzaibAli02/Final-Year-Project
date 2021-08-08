@@ -1,5 +1,6 @@
 package com.example.digitalshop.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.example.digitalshop.Interfaces.ClickListener;
 import com.example.digitalshop.Model.Product;
 import com.example.digitalshop.R;
 import com.example.digitalshop.SharedPref;
+import com.example.digitalshop.Utils.Util;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -58,6 +60,12 @@ public class BuyerHomeAdapter extends RecyclerView.Adapter<BuyerHomeAdapter.View
             @Override
             public void onClick (View v)
             {
+
+                if(SharedPref.getUser(context)==null)
+                {
+                    Util.showSnackBarMessage((Activity) context ,"Login To Mark As Favorite");
+                    return;
+                }
                 SharedPref.saveFavourite(context,product.getId(),!isFvrt);
                 notifyDataSetChanged();
             }

@@ -1,7 +1,9 @@
 package com.example.digitalshop.Utils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -12,20 +14,26 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.digitalshop.Activities.Authentication.Login_SignUp;
 import com.example.digitalshop.Interfaces.ImageListener;
+import com.example.digitalshop.Interfaces.LocationListener;
 import com.example.digitalshop.R;
 import com.example.digitalshop.SharedPref;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.vansuita.pickimage.bean.PickResult;
@@ -167,6 +175,59 @@ public class Util
        }).show((FragmentActivity) activity);
     }
 
+
+    public  static  Dialog  getDialog (Context context, int layout)
+    {
+        Dialog dialog=new Dialog(context);
+        dialog.setContentView(layout);
+        Window window = dialog.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        return dialog;
+    }
+
+    public static void loadLocation (AppCompatActivity activity, LocationListener locationListener)
+    {
+
+
+        final boolean[] isSent = {false};
+        LocationProvider locationProvider=new LocationProvider.Builder(activity)
+                .setInterval(5000)
+                .setFastestInterval(2000)
+                .setListener(new LocationProvider.MLocationCallback()
+                {
+
+                    @Override
+                    public void onGoogleAPIClient (GoogleApiClient googleApiClient, String message)
+                    {
+
+                    }
+
+                    @Override
+                    public void onLocationUpdated(double latitude, double longitude,LocationProvider locationProvider)
+                    {
+
+
+                        if(! isSent[0])
+                        {
+                            locationListener.onLocationLoad(new LatLng(latitude,longitude));
+                            isSent[0] =true;
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onLocationUpdateRemoved()
+                    {
+
+                    }
+
+                }).build();
+
+
+        activity.getLifecycle().addObserver(locationProvider);
+    }
     public static  void composeEmail(Activity activity) {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:alishahzaib02@gmai.com"));

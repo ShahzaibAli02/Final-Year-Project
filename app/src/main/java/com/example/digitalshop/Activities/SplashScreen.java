@@ -50,7 +50,7 @@ public class SplashScreen extends AppCompatActivity
             if(SharedPref.getUserType(this).isEmpty())
             {
                 finish();
-                startActivity(new Intent(this, Seller_Buyer_Selection_Activity.class));
+                startActivity(new Intent(this, Login_SignUp.class));
             }
             else
             {

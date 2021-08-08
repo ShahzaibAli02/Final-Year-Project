@@ -492,6 +492,8 @@ public class FireStoreDatabaseManager
     public  static  void  addOrder (Order order, DataBaseResult dataBaseResult)
     {
 
+
+        updateAnalyticVal(order.getSellerid(),"orders",1L);
         FirebaseFirestore db=FirebaseFirestore.getInstance();
         CollectionReference collectionReference = db.collection(Constants.DB_ORDERS);
         DocumentReference document = collectionReference.document();
@@ -564,6 +566,43 @@ public class FireStoreDatabaseManager
                 {
                     dataBaseResult.onResult(false,"User Found",documentSnapshot.toObject(User.class));
                 }
+            }
+        });
+
+
+
+    }
+
+    public static void getAllStores(DataBaseResult dataBaseResult)
+    {
+        FirebaseFirestore db=FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = db.collection(Constants.DB_USERS);
+        collectionReference.whereEqualTo("role","seller").get().addOnCompleteListener(new OnCompleteListener <QuerySnapshot>()
+        {
+            @Override
+            public void onComplete (@NonNull Task <QuerySnapshot> task) {
+
+
+                if(task.isSuccessful())
+                {
+
+                    QuerySnapshot result = task.getResult();
+
+                    List<User> userList=new ArrayList <>();
+                    for(DocumentSnapshot snapshot:result.getDocuments())
+                    {
+                        User user = snapshot.toObject(User.class);
+                        userList.add(user);
+
+
+                    }
+                    dataBaseResult.onResult(false,"Data Found",userList);
+                }
+                else
+                {
+                    dataBaseResult.onResult(true,task.getException().getMessage(),null);
+                }
+
             }
         });
 

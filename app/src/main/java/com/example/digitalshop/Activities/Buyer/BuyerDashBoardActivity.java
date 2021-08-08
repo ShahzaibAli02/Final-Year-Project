@@ -14,6 +14,7 @@ import com.example.digitalshop.Activities.Buyer.Fragments.BuyerCartFragment;
 import com.example.digitalshop.Activities.Buyer.Fragments.BuyerHomeFragment;
 import com.example.digitalshop.Activities.Buyer.Fragments.BuyerOrdersFragment;
 import com.example.digitalshop.Activities.Buyer.Fragments.BuyerProfileFragment;
+import com.example.digitalshop.Activities.Buyer.Fragments.CreateBuyerRequestFragment;
 import com.example.digitalshop.Activities.Seller.Fragments.SellerAddProductFragment;
 import com.example.digitalshop.Activities.Seller.Fragments.SellerHomeFragment;
 import com.example.digitalshop.Activities.Seller.Fragments.SellerOrdersFragment;
@@ -81,6 +82,10 @@ public class BuyerDashBoardActivity extends AppCompatActivity
                         navigationbar.setItemSelected(R.id.home,true);
                     }
 
+                }
+                if(i==R.id.buyerrequest)
+                {
+                    navigateTo(new CreateBuyerRequestFragment());
                 }
                 if(i==R.id.cart)
                 {

@@ -1,6 +1,10 @@
 package com.example.digitalshop.Activities.Buyer.Fragments;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,10 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.digitalshop.Activities.Buyer.BuyerDashBoardActivity;
+import com.example.digitalshop.Activities.Payment;
 import com.example.digitalshop.Adapters.CartAdapter;
 import com.example.digitalshop.FireStoreDatabaseManager;
 import com.example.digitalshop.Interfaces.ClickListener;
@@ -47,6 +54,12 @@ public class BuyerCartFragment extends Fragment implements ClickListener, View.O
     ConstraintLayout layout_checkout;
     LinearLayout layout_bottom;
     int count=0;
+    enum  PaymentMethod{
+        JazzCash,
+        COD
+    }
+
+    PaymentMethod paymentMethod;
     @Override
     public View onCreateView (LayoutInflater inflater , ViewGroup container ,Bundle savedInstanceState)
     {
@@ -97,53 +110,120 @@ public class BuyerCartFragment extends Fragment implements ClickListener, View.O
     {
         loadData();
     }
-    public  void  updateTotalPrice()
+    public  Double  updateTotalPrice()
     {
         Double totalPrice=0.0;
         for(Order order:orderList)
             totalPrice+=order.getTotalprice();
 
         txtTotalPrice.setText(String.format("Rs %.1f" , totalPrice.floatValue()));
-
+        return totalPrice;
     }
 
     @Override
     public void onClick (View v)
     {
 
-        count=0;
-        int total=orderList.size();
 
         if(v==layout_checkout)
         {
-
-            AlertDialog progressDialog = ProgressDialogManager.getProgressDialog(getActivity());
-            progressDialog.show();
-            for(Order order:orderList)
-            {
-                FireStoreDatabaseManager.addOrder(order , new DataBaseResult()
-                {
-                    @Override
-                    public void onResult (boolean error , String Message , Object data)
-                    {
-                        count++;
-
-
-                        if(count==total)
-                        {
-                            progressDialog.dismiss();
-                            Util.showCustomToast(getActivity(),Message,error);
-                            if(!error)
-                            {
-                                SharedPref.clearCart(getActivity());
-                                loadData();
-                            }
-                        }
-
-                    }
-                });
-            }
-
+            showDialogPaymentSelection();
         }
     }
+
+    private void addinDatabase ()
+    {
+
+        count=0;
+        int total=orderList.size();
+        AlertDialog progressDialog = ProgressDialogManager.getProgressDialog(getActivity());
+        progressDialog.show();
+        for(Order order:orderList)
+        {
+            order.setPayment_method(paymentMethod.toString());
+            FireStoreDatabaseManager.addOrder(order , new DataBaseResult()
+            {
+                @Override
+                public void onResult (boolean error , String Message , Object data)
+                {
+                    count++;
+
+
+                    if(count==total)
+                    {
+                        progressDialog.dismiss();
+                        paymentMethod=null;
+                        Util.showCustomToast(getActivity(),Message,error);
+                        if(!error)
+                        {
+                            SharedPref.clearCart(getActivity());
+                            loadData();
+                        }
+                    }
+
+                }
+            });
+        }
+    }
+
+
+    public  void  showDialogPaymentSelection()
+    {
+        Dialog dialog=Util.getDialog(getActivity(),R.layout.lyt_dialog_payment_selection);
+
+        Button btnJazzCash=dialog.findViewById(R.id.btnJazzCash);
+        Button btnCod=dialog.findViewById(R.id.btnCashOnDelivery);
+
+
+        View.OnClickListener onClickListener=new View.OnClickListener()
+        {
+            @Override
+            public void onClick (View v)
+            {
+                dialog.dismiss();
+
+                if(v==btnJazzCash)
+                {
+                    Intent intent = new Intent(getActivity(), Payment.class);
+                    intent.putExtra("price", String.valueOf(updateTotalPrice()));
+                    startActivityForResult(intent,0);
+                }
+                else
+                {
+                    paymentMethod=PaymentMethod.COD;
+                    addinDatabase();
+                }
+
+            }
+        };
+
+        btnJazzCash.setOnClickListener(onClickListener);
+        btnCod.setOnClickListener(onClickListener);
+        dialog.show();
+
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Check that it is the SecondActivity with an OK result
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+            // Get String data from Intent
+            String ResponseCode = data.getStringExtra("pp_ResponseCode");
+            if(ResponseCode.equals("123"))
+            {
+
+                Util.showCustomToast(getActivity(),"Payment Success",false);
+                paymentMethod=PaymentMethod.JazzCash;
+                addinDatabase();
+            }
+            else
+            {
+                Util.showCustomToast(getActivity(),"Payment Failed",true);
+            }
+        }
+    }
+
 }

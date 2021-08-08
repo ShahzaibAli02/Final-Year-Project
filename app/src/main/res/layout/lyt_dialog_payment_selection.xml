@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_margin="20dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="10dp"
+    android:padding="10dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        >
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:src="@drawable/ic_cash" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Payment Method "
+        android:gravity="center"
+        android:textColor="@color/light_black"
+        android:textSize="25dp"
+        android:fontFamily="@font/orelega_one_regular"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnJazzCash"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Jazz Cash"
+        android:textColor="@color/white"
+        android:backgroundTint="#E53935"
+        android:fontFamily="@font/orelega_one_regular"
+        android:background="@drawable/back_default"
+
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnCashOnDelivery"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cash On Delivery"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:fontFamily="@font/orelega_one_regular"
+        android:background="@drawable/back_default"
+        />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
