@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/drawable-anydpi/mylocation.xml" value="0.19322916666666667" />
         <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/drawable/table_content_cell_bg.xml" value="0.18177083333333333" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/activity_buyer_dash_board.xml" value="0.10460992907801418" />
         <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/activity_buyer_order_details.xml" value="0.10461956521739131" />
         <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/activity_buyer_product_detail.xml" value="0.22" />
         <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/activity_maps.xml" value="0.12" />
@@ -16,16 +17,25 @@
         <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/fragment_create_buyer_request.xml" value="0.2" />
         <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/fragment_login.xml" value="0.22" />
         <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/fragment_seller_add_product.xml" value="0.18" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/fragment_seller_buyer_request.xml" value="0.12364130434782608" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/fragment_seller_home.xml" value="0.1" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/fragment_seller_orders.xml" value="0.12364130434782608" />
         <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/fragment_sign_up.xml" value="0.22" />
         <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/list_item_simple.xml" value="0.13360507246376813" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/lyt_buyer_request.xml" value="0.25" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/lyt_cart_item.xml" value="0.10460992907801418" />
         <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/lyt_custom_maps_toolbar.xml" value="0.18" />
         <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/lyt_dialog_change_status.xml" value="0.18" />
         <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/lyt_dialog_filter.xml" value="0.2" />
-        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/lyt_dialog_foget_pass.xml" value="0.10009057971014493" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/lyt_dialog_foget_pass.xml" value="0.18" />
         <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/lyt_dialog_leave_review.xml" value="0.10009057971014493" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/lyt_dialog_login.xml" value="0.10460992907801418" />
         <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/lyt_dialog_payment_selection.xml" value="0.21" />
         <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/lyt_dialog_seller_buyer_selection.xml" value="0.14175724637681159" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/lyt_empty.xml" value="0.10460992907801418" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/layout/lyt_product.xml" value="0.15" />
         <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/menu/menu_buyer.xml" value="0.21" />
+        <entry key="..\:/AndroidCodes/Final-Year-Project/app/src/main/res/menu/menu_seller.xml" value="0.175" />
       </map>
     </option>
   </component>

@@ -1,7 +1,5 @@
 package com.example.digitalshop.Activities.Seller.Fragments;
 
-import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,29 +17,28 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.example.digitalshop.Activities.Seller.SellerDashBoard;
-import com.example.digitalshop.Activities.Seller.SellerOrderDetailsActivity;
+import com.example.digitalshop.Adapters.BuyerRequestAdapter;
 import com.example.digitalshop.Adapters.OrderAdapter;
 import com.example.digitalshop.FireStoreDatabaseManager;
-import com.example.digitalshop.Interfaces.ClickListener;
 import com.example.digitalshop.Interfaces.DataBaseResult;
+import com.example.digitalshop.Model.BuyerRequest;
 import com.example.digitalshop.Model.Order;
 import com.example.digitalshop.R;
 import com.example.digitalshop.SharedPref;
-import com.example.digitalshop.Utils.ProgressDialogManager;
 import com.example.digitalshop.Utils.Util;
 import com.github.ybq.android.spinkit.SpinKitView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SellerOrdersFragment extends Fragment implements ClickListener
+
+public class SellerBuyerRequestFragment extends Fragment
 {
 
+    List <BuyerRequest> orderslist=new ArrayList <>();
 
-    List<Order> orderslist=new ArrayList<>();
-
-    OrderAdapter orderAdapter;
+    BuyerRequestAdapter buyerRequestAdapter;
     RecyclerView recyclerView;
     SpinKitView spin_kit;
     EditText edit_query;
@@ -53,7 +49,7 @@ public class SellerOrdersFragment extends Fragment implements ClickListener
                               Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_seller_orders , container , false);
+        return inflater.inflate(R.layout.fragment_seller_buyer_request , container , false);
     }
 
     @Override
@@ -63,7 +59,6 @@ public class SellerOrdersFragment extends Fragment implements ClickListener
         super.onViewCreated(view , savedInstanceState);
         initViews(view);
         loadData();
-        orderAdapter.notifyDataSetChanged();
 
         edit_query.addTextChangedListener(new TextWatcher() {
             @Override
@@ -83,17 +78,17 @@ public class SellerOrdersFragment extends Fragment implements ClickListener
                 {
                     orderslist.clear();
                     if(originalData!=null)
-                        orderslist.addAll((List<Order>)originalData);
+                        orderslist.addAll((List<BuyerRequest>)originalData);
                 }
                 else
                 {
                     String query=edit_query.getText().toString();
-                    List<Order> filteredList=new ArrayList<>();
-                    for(Order event:orderslist)
+                    List<BuyerRequest> filteredList=new ArrayList<>();
+                    for(BuyerRequest buyerRequest:(List<BuyerRequest>)originalData)
                     {
-                        if(event.getProduct().getName().toLowerCase().contains(query.toLowerCase()))
+                        if(buyerRequest.getTitle().toLowerCase().contains(query.toLowerCase()) || buyerRequest.getRequest_discription().toLowerCase().contains(query.toLowerCase()))
                         {
-                            filteredList.add(event);
+                            filteredList.add(buyerRequest);
 
                         }
                     }
@@ -101,7 +96,7 @@ public class SellerOrdersFragment extends Fragment implements ClickListener
                     orderslist.addAll(filteredList);
                 }
 
-                orderAdapter.notifyDataSetChanged();
+                buyerRequestAdapter.notifyDataSetChanged();
 
             }
         });
@@ -112,7 +107,7 @@ public class SellerOrdersFragment extends Fragment implements ClickListener
 
 
 
-        FireStoreDatabaseManager.loadordersbyid(SharedPref.getUser(getContext()).getUid() , new DataBaseResult()
+        FireStoreDatabaseManager.getAllBuyerRequests(FirebaseAuth.getInstance().getCurrentUser().getUid() , new DataBaseResult()
         {
             @Override
             public void onResult (boolean error , String Message , Object data) {
@@ -121,12 +116,11 @@ public class SellerOrdersFragment extends Fragment implements ClickListener
                 orderslist.clear();
                 if(!error)
                 {
-
                     originalData=data;
-                    orderslist.addAll((List<Order>)data);
-
+                    orderslist.addAll((List<BuyerRequest>)data);
                 }
-                orderAdapter.notifyDataSetChanged();
+
+                buyerRequestAdapter.notifyDataSetChanged();
                 recyclerView.scheduleLayoutAnimation();
                 spin_kit.setVisibility(View.GONE);
                 lyt_empty.setVisibility(orderslist.isEmpty()?View.VISIBLE:View.GONE);
@@ -149,16 +143,12 @@ public class SellerOrdersFragment extends Fragment implements ClickListener
         recyclerView=view.findViewById(R.id.recyclerView);
         edit_query=view.findViewById(R.id.edit_query);
 
-        orderAdapter =new OrderAdapter(orderslist,getActivity(),this);
+        buyerRequestAdapter =new BuyerRequestAdapter(orderslist,getActivity());
 
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
-        recyclerView.setAdapter(orderAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(buyerRequestAdapter);
     }
 
 
-    @Override
-    public void onClicked (int position)
-    {
-        startActivity(new Intent(getActivity(), SellerOrderDetailsActivity.class).putExtra("order",orderslist.get(position)));
-    }
+
 }

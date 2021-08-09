@@ -6,6 +6,12 @@
         android:icon="@drawable/ic_home"
         android:title="Dash Board"
         app:cnb_iconColor="@color/colorPrimary"/>
+
+    <item
+        android:id="@+id/buyerrequest"
+        android:icon="@drawable/ic_request"
+        android:title="Buyer Request"
+        app:cnb_iconColor="@color/colorPrimary"/>
     <item
         android:id="@+id/orders"
         android:icon="@drawable/ic_orders"

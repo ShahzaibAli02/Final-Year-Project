@@ -248,7 +248,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
         if(!Util.isPhoneValid(editTextPhone.getText().toString()))
         {
-            editTextPhone.setError("Invalid Phone");
+            editTextPhone.setError("Phone number should be of 11 digits");
             editTextPhone.requestFocus();
             return false;
         }

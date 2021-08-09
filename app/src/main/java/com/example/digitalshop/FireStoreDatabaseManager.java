@@ -8,6 +8,7 @@ import com.example.digitalshop.Enums.OrderStatus;
 import com.example.digitalshop.Interfaces.DataBaseResult;
 import com.example.digitalshop.Interfaces.ImageUploadListener;
 import com.example.digitalshop.Model.Analytics;
+import com.example.digitalshop.Model.BuyerRequest;
 import com.example.digitalshop.Model.Order;
 import com.example.digitalshop.Model.Product;
 import com.example.digitalshop.Model.User;
@@ -489,6 +490,38 @@ public class FireStoreDatabaseManager
     }
 
 
+
+
+    public  static  void  addBuyerRequest (BuyerRequest buyerRequest, DataBaseResult dataBaseResult)
+    {
+
+
+
+        FirebaseFirestore db=FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = db.collection(Constants.DB_BUYER_REQUESTS);
+        DocumentReference document = collectionReference.document();
+        buyerRequest.setKey(document.getId());
+        document.set(buyerRequest).addOnCompleteListener(new OnCompleteListener<Void>()
+        {
+            @Override
+            public void onComplete (@NonNull @NotNull Task<Void> task)
+            {
+
+                if(task.isSuccessful())
+                {
+                    dataBaseResult.onResult(false,"Your request sent successfully to the seller",null);
+                }
+                else
+                {
+                    dataBaseResult.onResult(true,task.getException().getMessage(),null);
+                }
+
+            }
+        });
+
+    }
+
+
     public  static  void  addOrder (Order order, DataBaseResult dataBaseResult)
     {
 
@@ -597,6 +630,44 @@ public class FireStoreDatabaseManager
 
                     }
                     dataBaseResult.onResult(false,"Data Found",userList);
+                }
+                else
+                {
+                    dataBaseResult.onResult(true,task.getException().getMessage(),null);
+                }
+
+            }
+        });
+
+
+
+    }
+
+
+    public static void getAllBuyerRequests(String seller_uid,DataBaseResult dataBaseResult)
+    {
+        FirebaseFirestore db=FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = db.collection(Constants.DB_BUYER_REQUESTS);
+        collectionReference.whereEqualTo("seller_uid",seller_uid).get().addOnCompleteListener(new OnCompleteListener <QuerySnapshot>()
+        {
+            @Override
+            public void onComplete (@NonNull Task <QuerySnapshot> task) {
+
+
+                if(task.isSuccessful())
+                {
+
+                    QuerySnapshot result = task.getResult();
+
+                    List<BuyerRequest> buyerRequests=new ArrayList <>();
+                    for(DocumentSnapshot snapshot:result.getDocuments())
+                    {
+                        BuyerRequest buyerRequest = snapshot.toObject(BuyerRequest.class);
+                        buyerRequests.add(buyerRequest);
+
+
+                    }
+                    dataBaseResult.onResult(false,"Data Found",buyerRequests);
                 }
                 else
                 {

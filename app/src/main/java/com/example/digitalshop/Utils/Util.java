@@ -150,7 +150,7 @@ public class Util
     }
     public static boolean isPhoneValid(String phone)
     {
-        return (Patterns.PHONE.matcher(phone).matches());
+        return phone.length()==11;
 
     }
 
@@ -175,7 +175,20 @@ public class Util
        }).show((FragmentActivity) activity);
     }
 
+    public static void  openDialer(Context context,String phone)
+    {
+        try
+        {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:"+phone));
+            context.startActivity(intent);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
+    }
     public  static  Dialog  getDialog (Context context, int layout)
     {
         Dialog dialog=new Dialog(context);

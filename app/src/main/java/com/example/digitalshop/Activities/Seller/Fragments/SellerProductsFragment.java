@@ -121,18 +121,12 @@ public class SellerProductsFragment extends Fragment implements ClickListener
 
               //  progressDialog.dismiss();
                 orderslist.clear();
-                if(error)
-                {
-
-                    Util.showSnackBarMessage(getActivity(),Message);
-
-                }
-                else
+                if(!error)
                 {
                     originalData=data;
                     orderslist.addAll((List<Product>)data);
-
                 }
+
                 eventAdapter.notifyDataSetChanged();
                 recyclerView.scheduleLayoutAnimation();
                 spin_kit.setVisibility(View.GONE);

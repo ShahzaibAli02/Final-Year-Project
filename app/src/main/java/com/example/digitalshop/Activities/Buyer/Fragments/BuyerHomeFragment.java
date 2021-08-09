@@ -71,6 +71,7 @@ public class BuyerHomeFragment extends Fragment implements ClickListener
     com.smarteist.autoimageslider.SliderView sliderView;
     ImageView imgCart;
     CardView cardFilter;
+    public  static  LatLng mylatlng;
     @Override
     public View onCreateView (LayoutInflater inflater , ViewGroup container ,
                               Bundle savedInstanceState)
@@ -201,6 +202,7 @@ public class BuyerHomeFragment extends Fragment implements ClickListener
             public void onLocationLoad (LatLng mylatLng)
             {
 
+                mylatlng=mylatLng;
                 if (progressDialog.isShowing())
                     progressDialog.dismiss();
 
@@ -210,15 +212,18 @@ public class BuyerHomeFragment extends Fragment implements ClickListener
 
 
                 List <Product> filteredList = new ArrayList <>();
-                for (Product event : orderslist)
+                for (Product event : (List<Product>)originalData)
                 {
                     Location locationShop = new Location("ShopLocation");
                     locationShop.setLatitude(event.getLat());
                     locationShop.setLongitude(event.getLng());
 
 
-                    if (getDistance(locationShop , mylocation) <= filterkms)
+                    float distance = getDistance(locationShop , mylocation);
+                    if (distance <= filterkms)
                     {
+
+                        event.setDistance(String.format("Distance :%.2f Km " , distance));
                         filteredList.add(event);
                     }
 

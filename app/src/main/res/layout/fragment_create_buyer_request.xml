@@ -33,11 +33,38 @@
         <Spinner
             android:id="@+id/SpinnerStoreName"
             android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/back_default"
             android:gravity="center" />
 
+        <TextView
+            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:textColor="#555454"
+            android:textStyle="bold"
+            android:layout_marginStart="20dp"
+            android:text="Request Title"
+            android:layout_marginLeft="20dp" />
+
+
+
+        <EditText
+            android:id="@+id/editTextTitle"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/back_default"
+            android:hint="Write Product name you wants..."
+            android:gravity="center"
+            android:paddingStart="10dp"
+            android:paddingLeft="10dp" />
 
 
         <TextView
@@ -59,6 +86,8 @@
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/back_default"
             android:hint="Write Your Request Here ...."
             android:padding="10dp"
@@ -83,8 +112,10 @@
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/back_default"
-            android:hint="Shahzaib Ali"
+            android:hint="Your Name"
             android:gravity="center"
             android:paddingStart="10dp"
             android:paddingLeft="10dp" />
@@ -109,9 +140,12 @@
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/back_default"
             android:hint="someone@gmail.com"
             android:gravity="center"
+            android:inputType="textEmailAddress"
             android:paddingStart="10dp"
             android:paddingLeft="10dp" />
 
@@ -135,6 +169,8 @@
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/back_default"
             android:hint="+00000000"
             android:inputType="phone"

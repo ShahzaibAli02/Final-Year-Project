@@ -208,9 +208,9 @@ public class BuyerCartFragment extends Fragment implements ClickListener, View.O
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Check that it is the SecondActivity with an OK result
+
         if (requestCode == 0 && resultCode == RESULT_OK) {
-            // Get String data from Intent
+
             String ResponseCode = data.getStringExtra("pp_ResponseCode");
             if(ResponseCode.equals("123"))
             {

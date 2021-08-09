@@ -12,6 +12,16 @@ public class Product implements Serializable
     private String name;
     private String detail;
 
+    public String getDistance () {
+        return distance;
+    }
+
+    public void setDistance (String distance) {
+        this.distance = distance;
+    }
+
+    private  String distance;
+
     public Integer getRatingcount () {
         return ratingcount;
     }

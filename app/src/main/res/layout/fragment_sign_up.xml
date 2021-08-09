@@ -165,7 +165,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/back_default"
-            android:hint="+00000000"
+            android:hint="03012345678"
             android:inputType="phone"
             android:gravity="center"
             android:paddingStart="10dp"

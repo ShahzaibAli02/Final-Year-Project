@@ -174,7 +174,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             {
                 Address obj = addresses.get(0);
                 String add = obj.getAddressLine(0);
-                System.out.println("ADDRESS : "+obj.getLocality());
                 add = add + "\n" + obj.getCountryName();
                 add = add + "\n" + obj.getCountryCode();
                 add = add + "\n" + obj.getAdminArea();

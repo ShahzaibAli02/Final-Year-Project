@@ -41,8 +41,9 @@ public class BuyerHomeAdapter extends RecyclerView.Adapter<BuyerHomeAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, int i) {
-        Product product=listData.get(i);
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int k)
+    {
+        Product product=listData.get(holder.getAdapterPosition());
         FireStoreDatabaseManager.updateAnalyticVal(product.getUid(),"views",1L);
         holder.txtName.setText(product.getName());
         holder.txtby.setText(String.format("By %s" , product.getUploadername()));
@@ -56,7 +57,20 @@ public class BuyerHomeAdapter extends RecyclerView.Adapter<BuyerHomeAdapter.View
         int Color= isFvrt?R.color.Red:R.color.Silver;
         holder.imgFvrt.setColorFilter(ContextCompat.getColor(context, Color), android.graphics.PorterDuff.Mode.SRC_IN);
         Picasso.get().load(product.getImages().get(0)).placeholder(R.drawable.logo).into(holder.imgEvent);
-        holder.imgFvrt.setOnClickListener(new View.OnClickListener() {
+
+
+        if(product.getDistance()!=null && !product.getDistance().isEmpty())
+        {
+            holder.txtDistance.setVisibility(View.VISIBLE);
+            holder.txtDistance.setText(product.getDistance());
+        }
+        else
+        {
+            holder.txtDistance.setVisibility(View.GONE);
+            holder.txtDistance.setText(null);
+        }
+        holder.imgFvrt.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick (View v)
             {
@@ -75,7 +89,7 @@ public class BuyerHomeAdapter extends RecyclerView.Adapter<BuyerHomeAdapter.View
             @Override
             public void onClick (View v)
             {
-                clickListener.onClicked(i);
+                clickListener.onClicked(holder.getAdapterPosition());
             }
         });
 
@@ -96,6 +110,7 @@ public class BuyerHomeAdapter extends RecyclerView.Adapter<BuyerHomeAdapter.View
         private TextView txtprice;
         private TextView txtName;
         private TextView txtDetail;
+        private TextView txtDistance;
         private RatingBar ratingBar;
         Button btn;
 
@@ -103,6 +118,7 @@ public class BuyerHomeAdapter extends RecyclerView.Adapter<BuyerHomeAdapter.View
         {
             super(itemView);
 
+            txtDistance=itemView.findViewById(R.id.txtDistance);
             ratingBar=itemView.findViewById(R.id.ratingBar);
             imgEvent=itemView.findViewById(R.id.imgEvent);
             imgFvrt=itemView.findViewById(R.id.imgFavourite);

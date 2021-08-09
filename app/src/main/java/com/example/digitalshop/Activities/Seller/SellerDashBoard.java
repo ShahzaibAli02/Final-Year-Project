@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.digitalshop.Activities.Seller.Fragments.SellerAddProductFragment;
+import com.example.digitalshop.Activities.Seller.Fragments.SellerBuyerRequestFragment;
 import com.example.digitalshop.Activities.Seller.Fragments.SellerHomeFragment;
 import com.example.digitalshop.Activities.Seller.Fragments.SellerOrdersFragment;
 import com.example.digitalshop.Activities.Seller.Fragments.SellerProductsFragment;
@@ -69,6 +70,10 @@ public class SellerDashBoard extends AppCompatActivity
                 if(i==R.id.products)
                 {
                     navigateTo(new SellerProductsFragment());
+                }
+                if(i==R.id.buyerrequest)
+                {
+                    navigateTo(new SellerBuyerRequestFragment());
                 }
                 if(i==R.id.addproduct)
                 {

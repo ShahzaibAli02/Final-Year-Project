@@ -150,12 +150,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
                     if(user.getRole().equalsIgnoreCase("seller"))
                     {
+                        SharedPref.saveUserType(getActivity(),"seller");
                         getActivity().finish();
                         getActivity().startActivity(new Intent(getActivity(), SellerDashBoard.class));
 
                     }
                     else
                     {
+                        SharedPref.saveUserType(getActivity(),"buyer");
                         getActivity().finish();
                         getActivity().startActivity(new Intent(getActivity(), BuyerDashBoardActivity.class));
                     }
